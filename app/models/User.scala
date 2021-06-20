@@ -3,8 +3,7 @@ package models
 import play.api.libs.json.{Json, OFormat}
 
 case class User(
-                 forename: String,
-                 surname: String,
+                 username: String,
                  email: String,
                  password: String,
                  age: Int,
