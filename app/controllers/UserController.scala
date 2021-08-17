@@ -1,21 +1,25 @@
 package controllers
 
 import com.google.inject.Inject
-import models.User
+import config.MongoConfiguration
+import models.{MacroStat, PreviousWeight, User}
 import play.api.http.Writeable
-import play.api.libs.json.{JsArray, JsObject, Json, Writes}
-import play.api.mvc.{Action, AnyContent, BaseController, ControllerComponents, Request}
+import play.api.libs.json.{JsArray, JsObject, JsValue, Json, Writes}
+import play.api.mvc.{Action, AnyContent, BaseController, ControllerComponents, Request, Result}
 import reactivemongo.api.Cursor
-import service.UserService
+import connectors.UserConnector
+import reactivemongo.api.bson.BSONObjectID
+import reactivemongo.api.commands.WriteResult
 
+import java.time.LocalDate
 import scala.concurrent.{ExecutionContext, Future}
 
-class UserController @Inject()(userService: UserService, cc: ControllerComponents)(implicit val ec: ExecutionContext) extends BaseController {
+class UserController @Inject()(userConnector: UserConnector, cc: ControllerComponents, mongoConfiguration: MongoConfiguration)(implicit val ec: ExecutionContext) extends BaseController {
   override protected def controllerComponents: ControllerComponents = cc
 
   def findAllUsers: Action[AnyContent] = Action.async { implicit request =>
 
-    val cursor = userService.findAllUsers("test")
+    val cursor = userConnector.findAllUsers("Luella")
 
     val futureUserJsonArray: Future[JsArray] =
       cursor.map { user => Json.arr(user) }
@@ -23,8 +27,18 @@ class UserController @Inject()(userService: UserService, cc: ControllerComponent
     futureUserJsonArray.map { user =>
       Ok(user)
     }
-
-
-
   }
+
+
+//  /// Add user param later
+//  def createUser(): Action[AnyContent] = Action.async { implicit request =>
+//    val formData: User = User.form.bindFromRequest.get
+//
+//    val result = userConnector.createTestUser(formData)
+//
+//    result.map(_ => Ok)
+//  }
+//
+
+
 }

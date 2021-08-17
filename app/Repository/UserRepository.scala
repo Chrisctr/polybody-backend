@@ -1,0 +1,5 @@
+package Repository
+
+class UserRepository {
+
+}
