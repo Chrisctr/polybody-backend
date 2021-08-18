@@ -9,8 +9,8 @@ class UserSpec  extends BaseSpec {
 
   val previousWeightList: List[PreviousWeight] = {
     List(
-      PreviousWeight(LocalDate.of(2020, 3, 24), 150.5),
-      PreviousWeight(LocalDate.of(2020, 2, 24), 144.5)
+      PreviousWeight(1, LocalDate.of(2020, 3, 24), 150.5),
+      PreviousWeight(2, LocalDate.of(2020, 2, 24), 144.5)
     )
   }
 
@@ -36,9 +36,9 @@ class UserSpec  extends BaseSpec {
     25,
     "male",
     175.5,
-    previousWeightList,
-    165,
-    List(macroStat)
+    Some(previousWeightList),
+    Some(165.0),
+    Some(List(macroStat))
   )
 
   "User" must {
