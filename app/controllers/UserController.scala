@@ -14,12 +14,12 @@ import reactivemongo.api.commands.WriteResult
 import java.time.LocalDate
 import scala.concurrent.{ExecutionContext, Future}
 
-class UserController @Inject()(userConnector: UserConnector, cc: ControllerComponents, mongoConfiguration: MongoConfiguration)(implicit val ec: ExecutionContext) extends BaseController {
+class UserController @Inject()(userConnector: UserConnector, cc: ControllerComponents)(implicit val ec: ExecutionContext) extends BaseController {
   override protected def controllerComponents: ControllerComponents = cc
 
-  def findAllUsers: Action[AnyContent] = Action.async { implicit request =>
+  def findSpecificUser(username: String): Action[AnyContent] = Action.async { implicit request =>
 
-    val cursor = userConnector.findAllUsers("Luella")
+    val cursor = userConnector.findSpecificUser(username)
 
     val futureUserJsonArray: Future[JsArray] =
       cursor.map { user => Json.arr(user) }

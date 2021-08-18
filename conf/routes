@@ -12,7 +12,12 @@ GET     /height                             controllers.HomeController.height()
 GET     /current_weight                     controllers.HomeController.currentWeight()
 GET     /target_weight                      controllers.HomeController.targetWeight()
 
-GET     /findAllUsers                       controllers.UserController.findAllUsers
+GET     /findSpecificUser/:username                   controllers.UserController.findSpecificUser(username: String)
+
+GET     /findAllPreviousWeights/:username   controllers.PreviousWeightController.findAllPreviousWeights(username: String)
+GET     /findLastPreviousWeight/:username   controllers.PreviousWeightController.findLastPreviousWeight(username: String)
+
+PUT     /addNewWeight/:username               controllers.PreviousWeightController.addNewWeight(username: String)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file                       controllers.Assets.versioned(path="/public", file: Asset)

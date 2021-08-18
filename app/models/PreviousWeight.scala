@@ -10,7 +10,7 @@ import play.api.libs.json.{Format, JsError, JsResult, JsString, JsSuccess, JsVal
 
 import java.time.LocalDate
 
-case class PreviousWeight(dateTime: LocalDate, weight: Double)
+case class PreviousWeight(index: Long, dateTime: LocalDate, weight: Double)
 
 object PreviousWeight {
 

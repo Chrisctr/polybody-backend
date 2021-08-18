@@ -10,13 +10,13 @@ import scala.concurrent.{ExecutionContext, Future}
 
 class MongoConfiguration @Inject()()(implicit val ec: ExecutionContext) {
 
-  val mongoUri = "mongodb://localhost:27017"
+  lazy val mongoUri = "mongodb://localhost:27017"
 
-  val driver: AsyncDriver = AsyncDriver()
-  val parsedUri: Future[MongoConnection.ParsedURI] = MongoConnection.fromString(mongoUri)
+  lazy val driver: AsyncDriver = AsyncDriver()
+  lazy val parsedUri: Future[MongoConnection.ParsedURI] = MongoConnection.fromString(mongoUri)
 
-  val connection: Future[MongoConnection] = parsedUri.flatMap(driver.connect(_))
-  def db: Future[DB] = connection.flatMap(_.database("polybody"))
+  lazy val connection: Future[MongoConnection] = parsedUri.flatMap(driver.connect(_))
+  lazy val db: Future[DB] = connection.flatMap(_.database("polybody"))
 
-  val userCollection = db.map(_.collection[BSONCollection]("user"))
+  lazy val userCollection = db.map(_.collection[BSONCollection]("user"))
 }
