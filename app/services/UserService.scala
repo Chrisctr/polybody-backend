@@ -17,5 +17,4 @@ class UserService @Inject()(userConnector: UserConnector) {
       case _ => UserExistsAndValid
     }
   }
-
 }
