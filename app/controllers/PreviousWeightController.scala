@@ -1,11 +1,7 @@
 package controllers
 
-import akka.http.scaladsl.model.HttpResponse
 import com.google.inject.Inject
-import connectors.UserConnector
-import models.PreviousWeight
-import play.api.http.Writeable
-import play.api.libs.json.{JsArray, JsBoolean, JsValue, Json, Writes}
+import play.api.libs.json.{JsArray, Json}
 import play.api.mvc.{Action, AnyContent, BaseController, ControllerComponents}
 import services.PreviousWeightService
 

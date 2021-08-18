@@ -43,7 +43,6 @@ class PreviousWeightService @Inject()(userConnector: UserConnector, userService:
           )
         )
 
-
         userConnector.addWeight(selector, modifier)
 
 //      case UserDoesNotExist => logger.error("No such user")
