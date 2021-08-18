@@ -38,7 +38,7 @@ class PreviousWeightService @Inject()(userConnector: UserConnector, userService:
           "$addToSet" -> BSONDocument(
             "previousWeight" -> BSONDocument(
               "dateTime" -> currentDate,
-              "weight" -> 350
+              "weight" -> weight
             )
           )
         )

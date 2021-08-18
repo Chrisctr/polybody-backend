@@ -9,7 +9,6 @@ import play.api.libs.json.{JsArray, JsBoolean, JsValue, Json, Writes}
 import play.api.mvc.{Action, AnyContent, BaseController, ControllerComponents}
 import services.PreviousWeightService
 
-import java.time.LocalDate
 import scala.concurrent.{ExecutionContext, Future}
 
 class PreviousWeightController @Inject()(previousWeightService: PreviousWeightService, cc: ControllerComponents)(implicit val ec: ExecutionContext) extends BaseController {
@@ -41,10 +40,16 @@ class PreviousWeightController @Inject()(previousWeightService: PreviousWeightSe
 
   def addNewWeight(username: String): Action[AnyContent] = Action.async { implicit request =>
 
-    previousWeightService.addNewWeight(username, 150.0).map { data =>
+    val content = request.body.asJson
+
+    val weight = content.map { data =>
+      (data \ "weight").as[Double]
+    }.get
+
+    println(weight)
+
+    previousWeightService.addNewWeight(username, weight).map { data =>
       Created(Json.toJson(data))
     }
   }
-
-
 }
