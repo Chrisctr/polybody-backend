@@ -1,5 +1,0 @@
-package Repository
-
-class UserRepository {
-
-}

@@ -1,16 +1,13 @@
 package services
 
-import cats.data.OptionT
 import com.google.inject.Inject
 import connectors.UserConnector
-import helpers.{UserDoesNotExist, UserExistsAndValid}
-import models.{PreviousWeight, User}
+import models.PreviousWeight
 import play.api.Logging
-import play.api.libs.json.{JsObject, Json}
-import reactivemongo.api.Cursor
-import reactivemongo.api.bson.{BSONArray, BSONDocument, document}
+import reactivemongo.api.bson.BSONDocument
 
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import scala.concurrent.{ExecutionContext, Future}
 
 class PreviousWeightService @Inject()(userConnector: UserConnector, userService: UserService)(implicit ec: ExecutionContext) extends Logging {
@@ -30,11 +27,9 @@ class PreviousWeightService @Inject()(userConnector: UserConnector, userService:
   }
 
   def addNewWeight(username: String, weight: Double) = {
-    val json =
-      "dateTime" -> LocalDate.now
-      "weight" -> weight
 
-
+    val dateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+    val currentDate: String = LocalDate.now.format(dateTimeFormatter)
 
 //    userService.checkUserExists(username) match {
 //      case UserExistsAndValid =>
@@ -42,9 +37,8 @@ class PreviousWeightService @Inject()(userConnector: UserConnector, userService:
         val modifier: BSONDocument = BSONDocument(
           "$addToSet" -> BSONDocument(
             "previousWeight" -> BSONDocument(
-              "index" -> 4,
-              "dateTime" -> "2021-09-09",
-              "weight" -> 350
+              "dateTime" -> currentDate,
+              "weight" -> weight
             )
           )
         )
