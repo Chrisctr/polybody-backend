@@ -45,4 +45,6 @@ class PreviousWeightController @Inject()(previousWeightService: PreviousWeightSe
       Created(Json.toJson(data))
     }
   }
+
+
 }

@@ -1,25 +1,19 @@
 package connectors
 
-import akka.http.scaladsl.model.HttpResponse
-import akka.stream.StreamRefMessages.Payload
 import com.google.inject.Inject
 import config.MongoConfiguration
-import models.{MacroStat, PreviousWeight, User}
-import play.api.libs.json.JsObject
-import play.libs.Json
+import models.User
 import reactivemongo.api.Cursor
-import reactivemongo.api.bson.collection.BSONCollection
-import reactivemongo.api.bson.{BSONDocument, BSONObjectID, array, document}
-import reactivemongo.play.json.compat.json2bson.{toDocumentReader, toDocumentWriter}
+import reactivemongo.api.bson.{BSONDocument, document}
+import reactivemongo.play.json.compat.json2bson.toDocumentReader
 
-import java.time.LocalDate
 import scala.concurrent.{ExecutionContext, Future}
 
 class UserConnector @Inject()(mongoConfiguration: MongoConfiguration)(implicit val ec: ExecutionContext) {
 
   def findSpecificUser(username: String): Future[List[User]] = {
-    mongoConfiguration.userCollection.flatMap(_.find(document("username" -> username)). // query builder
-      cursor[User](). // using the result cursor
+    mongoConfiguration.userCollection.flatMap(_.find(document("username" -> username)).
+      cursor[User]().
       collect[List](-1, Cursor.FailOnError[List[User]]()))
   }
 
