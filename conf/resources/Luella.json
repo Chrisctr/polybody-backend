@@ -1,0 +1,29 @@
+[
+  {
+    "_id": "611be0d7e17315ce09335454",
+    "username": "Luella",
+    "email": "luellaalford@providco.com",
+    "password": "Moses",
+    "age": 17,
+    "gender": "female",
+    "height": 90,
+    "previousWeight": [{
+      "dateTime": "2018-09-09",
+      "weight": 83
+    }],
+    "targetWeight": 140,
+    "macroStat": [{
+      "dateTime": "2019-02-04",
+      "activityLevel": "Active",
+      "setGoal": 79,
+      "proteinPreference": 150,
+      "fatPreference": 50,
+      "carbPreference": 300,
+      "bodyFat": 15,
+      "equationPreference": "Default",
+      "maintenanceCalories": 25,
+      "targetCalories": 32,
+      "timeToGoal": 30
+    }]
+  }
+]
