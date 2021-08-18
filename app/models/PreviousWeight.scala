@@ -1,6 +1,10 @@
 package models
 
-import java.time.format.DateTimeParseException
+import helpers.FormBinding
+import play.api.data.Forms.{date, mapping, number, of, text, tuple}
+import play.api.data.{Form, Forms, Mapping}
+
+import java.time.format.{DateTimeFormatter, DateTimeParseException}
 import play.api.libs.json
 import play.api.libs.json.{Format, JsError, JsResult, JsString, JsSuccess, JsValue, Json, OFormat}
 
@@ -16,7 +20,7 @@ object PreviousWeight {
     override def reads(json: JsValue): JsResult[LocalDate] = json match {
       case JsString(s) =>
         try {
-          JsSuccess(LocalDate.parse(s))
+          JsSuccess(LocalDate.parse(s, DateTimeFormatter.ofPattern("yyyy-MM-ddTHH:mm:ss")))
         } catch {
           case _: DateTimeParseException => JsError("That's not a date")
         }

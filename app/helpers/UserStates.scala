@@ -1,0 +1,5 @@
+package helpers
+
+case object UserExistsAndValid
+case object UserExistsButInvalid
+case object UserDoesNotExist
