@@ -32,10 +32,10 @@ class PreviousWeightControllerSpec extends BaseSpec {
 
     "return 200 with last weight" in {
 
-      val request = FakeRequest("GET", s"/findAllPreviousWeights/${user.username}")
+      val request = FakeRequest("GET", s"/findLastPreviousWeights/${user.username}")
         .withHeaders(CONTENT_TYPE -> "application/json")
 
-      val result = controller.findAllPreviousWeights(user.username).apply(request)
+      val result = controller.findLastPreviousWeight(user.username).apply(request)
       status(result) mustBe OK
       (contentAsJson(result) \ "weights").as[String] mustBe Some(previousWeightList)
 
