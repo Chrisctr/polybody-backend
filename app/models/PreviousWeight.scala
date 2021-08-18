@@ -20,7 +20,7 @@ object PreviousWeight {
     override def reads(json: JsValue): JsResult[LocalDate] = json match {
       case JsString(s) =>
         try {
-          JsSuccess(LocalDate.parse(s, DateTimeFormatter.ofPattern("yyyy-MM-ddTHH:mm:ss")))
+          JsSuccess(LocalDate.parse(s))
         } catch {
           case _: DateTimeParseException => JsError("That's not a date")
         }
