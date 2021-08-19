@@ -8,8 +8,11 @@ GET     /findSpecificUser/:username                   controllers.UserController
 
 GET     /findAllPreviousWeights/:username   controllers.PreviousWeightController.findAllPreviousWeights(username: String)
 GET     /findLastPreviousWeight/:username   controllers.PreviousWeightController.findLastPreviousWeight(username: String)
-
 PUT     /addNewWeight/:username               controllers.PreviousWeightController.addNewWeight(username: String)
+
+GET     /findAllMacroStats/:username   controllers.MacroStatController.findAllMacroStats(username: String)
+GET     /findLastMacroStat/:username   controllers.MacroStatController.findLastMacroStat(username: String)
+
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file                       controllers.Assets.versioned(path="/public", file: Asset)
