@@ -2,15 +2,12 @@ package services
 
 import com.google.inject.Inject
 import connectors.UserConnector
-import helpers.{UserDoesNotExist, UserExistsAndValid}
 import models.User
 
 import scala.concurrent.duration.Duration
-import scala.concurrent.{Await, CanAwait, ExecutionContext, Future}
+import scala.concurrent.{Await, ExecutionContext, Future}
 
 class UserService @Inject()(userConnector: UserConnector)(implicit val ec: ExecutionContext) {
-
-
 
   def findSpecificUser(username: String): Option[Future[User]] = {
 
@@ -20,6 +17,6 @@ class UserService @Inject()(userConnector: UserConnector)(implicit val ec: Execu
       case false => None
     }
 
-    Await.result(verify, Duration(3, "seconds"))
+    Await.result(verify, Duration(10, "seconds"))
   }
 }
