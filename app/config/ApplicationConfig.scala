@@ -3,20 +3,29 @@ package config
 import com.google.inject.Inject
 import models.User
 import org.mongodb.scala.{MongoClient, MongoCollection, MongoDatabase, connection}
+import play.api.Configuration
 import reactivemongo.api.bson.collection.BSONCollection
 import reactivemongo.api.{AsyncDriver, Collection, DB, MongoConnection}
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class MongoConfiguration @Inject()()(implicit val ec: ExecutionContext) {
+class ApplicationConfig @Inject()(val configuration: Configuration)(implicit val ec: ExecutionContext) {
 
-  lazy val mongoUri = "mongodb://localhost:27017"
+  lazy val mongoUri = configuration.getOptional[String]("mongo.local.uri").getOrElse("")
 
   lazy val driver: AsyncDriver = AsyncDriver()
   lazy val parsedUri: Future[MongoConnection.ParsedURI] = MongoConnection.fromString(mongoUri)
 
   lazy val connection: Future[MongoConnection] = parsedUri.flatMap(driver.connect(_))
-  lazy val db: Future[DB] = connection.flatMap(_.database("polybody"))
+  lazy val db: Future[DB] = connection.flatMap(
+    _.database(
+      configuration.getOptional[String]("mongo.database").getOrElse("")
+    )
+  )
 
-  lazy val userCollection = db.map(_.collection[BSONCollection]("user"))
+  lazy val userCollection = db.map(
+    _.collection[BSONCollection](
+      configuration.getOptional[String]("mongo.user").getOrElse("")
+    )
+  )
 }
