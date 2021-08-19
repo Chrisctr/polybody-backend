@@ -1,7 +1,7 @@
 package controllers
 
 import com.google.inject.Inject
-import config.MongoConfiguration
+import config.ApplicationConfig
 import models.{MacroStat, PreviousWeight, User}
 import play.api.http.Writeable
 import play.api.libs.json.{JsArray, JsObject, JsValue, Json, Writes}

@@ -9,35 +9,37 @@ object UserDetails {
 
   val previousWeightList: List[PreviousWeight] = {
     List(
-      PreviousWeight(LocalDate.of(2020, 3, 24), 150.5),
-      PreviousWeight(LocalDate.of(2020, 2, 24), 144.5)
+      PreviousWeight(LocalDate.of(2020, 6, 9), 250),
+      PreviousWeight(LocalDate.of(2021, 6, 9), 180),
+      PreviousWeight(LocalDate.of(2021, 7, 9), 170),
+      PreviousWeight(LocalDate.of(2021, 8, 9), 165)
     )
   }
 
   val macroStat: MacroStat = new MacroStat(
-    LocalDate.of(2020, 3, 24),
+    LocalDate.of(2021, 8, 9),
     "Very Active",
-    160,
+    150,
     Some(150),
     Some(50),
-    Some(200),
-    Some(20),
-    None,
+    Some(300),
+    Some(13),
+    Some("Default"),
+    2900,
     2500,
-    2000,
-    10
+    90
   )
 
   val user: User = new User(
     "611be0d7e17315ce09335455",
     "Calvin",
     "calvin@gmail.com",
-    "testPassword",
+    "Sasquatch12!",
     25,
     "male",
-    175.5,
+    140,
     Some(previousWeightList),
-    Some(165),
+    Some(140),
     Some(List(macroStat))
   )
 
@@ -45,33 +47,41 @@ object UserDetails {
     "_id" -> "611be0d7e17315ce09335455",
     "username" -> "Calvin",
     "email" -> "calvin@gmail.com",
-    "password" -> "testPassword",
+    "password" -> "Sasquatch12!",
     "age" -> 25,
     "gender" -> "male",
-    "height" -> 175.5,
+    "height" -> 140,
     "previousWeight" -> Json.arr(
       Json.obj(
-        "dateTime" -> "2020-03-24",
-        "weight" -> 150.5
+        "dateTime" -> "22020-06-09",
+        "weight" -> 250
       ),
       Json.obj(
-        "dateTime" -> "2020-02-24",
-        "weight" -> 144.5
+        "dateTime" -> "2021-06-09",
+        "weight" -> 180
+      ),
+      Json.obj(
+        "dateTime" -> "2021-07-09",
+        "weight" -> 170
+      ),
+      Json.obj(
+        "dateTime" -> "2021-08-09",
+        "weight" -> 165
       )
     ),
-    "targetWeight" -> 165,
+    "targetWeight" -> 140,
     "macroStat" -> Json.arr(
       Json.obj(
-        "dateTime" -> "2020-03-24",
+        "dateTime" -> "2021-08-09",
         "activityLevel" -> "Very Active",
-        "setGoal" -> 160,
+        "setGoal" -> 150,
         "proteinPreference" -> 150,
         "fatPreference" -> 50,
-        "carbPreference" -> 200,
-        "bodyFat" -> 20,
+        "carbPreference" -> 300,
+        "bodyFat" -> 13,
         "maintenanceCalories" -> 2500,
         "targetCalories" -> 2000,
-        "timeToGoal" -> 10
+        "timeToGoal" -> 90
       )
     )
   )
