@@ -1,7 +1,7 @@
 package connectors
 
 import com.google.inject.Inject
-import config.MongoConfiguration
+import config.ApplicationConfig
 import models.User
 import reactivemongo.api.Cursor
 import reactivemongo.api.bson.{BSONDocument, document}
@@ -9,7 +9,7 @@ import reactivemongo.play.json.compat.json2bson.toDocumentReader
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class UserConnector @Inject()(mongoConfiguration: MongoConfiguration)(implicit val ec: ExecutionContext) {
+class UserConnector @Inject()(mongoConfiguration: ApplicationConfig)(implicit val ec: ExecutionContext) {
 
   def findSpecificUser(username: String): Future[List[User]] = {
     mongoConfiguration.userCollection.flatMap(_.find(document("username" -> username)).
