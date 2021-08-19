@@ -22,7 +22,7 @@ class UserController @Inject()(userConnector: UserConnector, cc: ControllerCompo
     val cursor = userConnector.findSpecificUser(username)
 
     val futureUserJsonArray: Future[JsArray] =
-      cursor.map { user => Json.arr(user) }
+      cursor.map { user => Json.arr(user.head) }
 
     futureUserJsonArray.map { user =>
       Ok(user)
