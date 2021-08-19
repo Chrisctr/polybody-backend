@@ -38,6 +38,7 @@ class PreviousWeightController @Inject()(previousWeightService: PreviousWeightSe
 
     val content = request.body.asJson
 
+    //TODO Add getOrElse
     val weight = content.map { data =>
       (data \ "weight").as[Double]
     }.get

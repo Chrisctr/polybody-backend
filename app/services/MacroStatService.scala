@@ -2,7 +2,7 @@ package services
 
 import com.google.inject.Inject
 import connectors.UserConnector
-import models.{MacroStat, PreviousWeight}
+import models.{MacroStat, MacroStatRequest, PreviousWeight}
 import play.api.Logging
 import reactivemongo.api.bson.BSONDocument
 
@@ -26,27 +26,40 @@ class MacroStatService @Inject()(userConnector: UserConnector, userService: User
       .map(_.head.macroStat.head)
   }
 
-//  def addNewMacroStat(username: String, weight: Double) = {
-//
-//    val dateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-//    val currentDate: String = LocalDate.now.format(dateTimeFormatter)
-//
-//    //    userService.checkUserExists(username) match {
-//    //      case UserExistsAndValid =>
-//    val selector: BSONDocument = BSONDocument("username" -> username)
-//    val modifier: BSONDocument = BSONDocument(
-//      "$addToSet" -> BSONDocument(
-//        "previousWeight" -> BSONDocument(
-//          "dateTime" -> currentDate,
-//          "weight" -> weight
-//        )
-//      )
-//    )
-//
-//    userConnector.addWeight(selector, modifier)
-//
-//    //      case UserDoesNotExist => logger.error("No such user")
-//
-//  }
+  def addNewMacroStat(
+                       username: String,
+                       macroStatRequest: MacroStatRequest
+                     ) = {
+
+    val dateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+    val currentDate: String = LocalDate.now.format(dateTimeFormatter)
+
+    //TODO Implement check
+    //    userService.checkUserExists(username) match {
+    //      case UserExistsAndValid =>
+    val selector: BSONDocument = BSONDocument("username" -> username)
+    val modifier: BSONDocument = BSONDocument(
+      "$addToSet" -> BSONDocument(
+        "macroStat" -> BSONDocument(
+          "dateTime" -> currentDate,
+          "activityLevel" -> macroStatRequest.activityLevel,
+          "setGoal" -> macroStatRequest.setGoal,
+          "proteinPreference" -> macroStatRequest.proteinPreference,
+          "fatPreference" -> macroStatRequest.fatPreference,
+          "carbPreference" -> macroStatRequest.carbPreference,
+          "bodyFat" -> macroStatRequest.bodyFat,
+          "equationPreference" -> macroStatRequest.equationPreference,
+          "maintenanceCalories" -> macroStatRequest.maintenanceCalories,
+          "targetCalories" -> macroStatRequest.targetCalories,
+          "timeToGoal" -> macroStatRequest.timeToGoal
+        )
+      )
+    )
+
+    userConnector.addWeight(selector, modifier)
+
+    //      case UserDoesNotExist => logger.error("No such user")
+
+  }
 
 }

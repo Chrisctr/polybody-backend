@@ -4,14 +4,15 @@
 # ~~~~
 
 # An example controller showing a sample home page
-GET     /findSpecificUser/:username                   controllers.UserController.findSpecificUser(username: String)
+GET     /findSpecificUser/:username         controllers.UserController.findSpecificUser(username: String)
 
 GET     /findAllPreviousWeights/:username   controllers.PreviousWeightController.findAllPreviousWeights(username: String)
 GET     /findLastPreviousWeight/:username   controllers.PreviousWeightController.findLastPreviousWeight(username: String)
-PUT     /addNewWeight/:username               controllers.PreviousWeightController.addNewWeight(username: String)
+PUT     /addNewWeight/:username             controllers.PreviousWeightController.addNewWeight(username: String)
 
-GET     /findAllMacroStats/:username   controllers.MacroStatController.findAllMacroStats(username: String)
-GET     /findLastMacroStat/:username   controllers.MacroStatController.findLastMacroStat(username: String)
+GET     /findAllMacroStats/:username        controllers.MacroStatController.findAllMacroStats(username: String)
+GET     /findLastMacroStat/:username        controllers.MacroStatController.findLastMacroStat(username: String)
+PUT     /addNewMacroStat/:username          controllers.MacroStatController.addNewMacroStat(username: String)
 
 
 # Map static resources from the /public folder to the /assets URL path
