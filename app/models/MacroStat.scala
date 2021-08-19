@@ -7,7 +7,6 @@ import play.api.libs.json._
 import java.time.LocalDate
 import java.time.format.DateTimeParseException
 
-
 case class MacroStat(
                       dateTime: LocalDate,
                       activityLevel: String,
