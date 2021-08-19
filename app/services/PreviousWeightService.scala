@@ -9,15 +9,23 @@ import reactivemongo.api.bson.BSONDocument
 
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.duration.Duration
+import scala.concurrent.{Await, ExecutionContext, Future}
 
 class PreviousWeightService @Inject()(userConnector: UserConnector, userService: UserService)(implicit ec: ExecutionContext) extends Logging {
 
-  def findPreviousWeights(username: String): Future[Option[List[PreviousWeight]]] = {
+  def findPreviousWeights(username: String): Option[Future[Option[List[PreviousWeight]]]] = {
 
-    userConnector.
-      findSpecificUser(username)
-      .map(_.head.previousWeight)
+    val verify = userConnector.checkUserExists(username) map {
+      case true =>
+        Some(
+          userConnector
+            .findSpecificUser(username)
+            .map(_.head.previousWeight)
+        )
+      case false => None
+    }
+    Await.result(verify, Duration(10, "seconds"))
   }
 
   def findLastWeight(username: String): Future[List[PreviousWeight]] = {

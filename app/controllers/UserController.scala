@@ -24,14 +24,15 @@ class UserController @Inject()(userService: UserService, cc: ControllerComponent
     userService.findSpecificUser(username) match {
       case Some(value) =>
         val userJson = value.map {
-          user => Json.arr(user)
+          data => Json.arr(data)
         }
-        userJson.map { user =>
-          Ok(user)
+        userJson.map { data =>
+          logger.info(data.toString)
+          Ok(data)
         }
       case None =>
-        logger.warn("BadRequest")
-        Future.successful(BadRequest("BadRequest"))
+        logger.error("NoContent")
+        Future.successful(NoContent)
     }
   }
 

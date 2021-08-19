@@ -12,11 +12,9 @@ class UserService @Inject()(userConnector: UserConnector)(implicit val ec: Execu
   def findSpecificUser(username: String): Option[Future[User]] = {
 
     val verify = userConnector.checkUserExists(username) map {
-
       case true => Some(userConnector.findSpecificUser(username).map(_.head))
       case false => None
     }
-
     Await.result(verify, Duration(10, "seconds"))
   }
 }
