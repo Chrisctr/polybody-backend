@@ -1,7 +1,70 @@
-# Play Hello World Web Tutorial for Scala
+# Polybody
 
-To follow the steps in this tutorial, you will need the correct version of Java and sbt. The template requires:
+1. [Endpoints (API)](#endpoints)
+    1. [GET](#GET)
+1. [Requirements](#requirements)
+1. [Build and run the project](#build-and-run-the-project)
 
+##Endpoints
+
+### GET
+
+### `GET /findSpecificUser/{username}`
+
+#### Successful
+
+```json
+[
+   {
+      "_id": "611be0d7e17315ce09335455",
+      "username": "Calvin",
+      "email": "calvin@gmail.com",
+      "password": "Sasquatch12!",
+      "age": 25,
+      "gender": "male",
+      "height": 140,
+      "previousWeight": [
+         {
+            "dateTime": "2020-06-09",
+            "weight": 250
+         },
+         {
+            "dateTime": "2021-06-09",
+            "weight": 180
+         },
+         {
+            "dateTime": "2021-07-09",
+            "weight": 170
+         },
+         {
+            "dateTime": "2021-08-09",
+            "weight": 165
+         }
+      ],
+      "targetWeight": 140,
+      "macroStat": [
+         {
+            "dateTime": "2021-08-09",
+            "activityLevel": "Very Active",
+            "setGoal": 150,
+            "proteinPreference": 150,
+            "fatPreference": 50,
+            "carbPreference": 300,
+            "bodyFat": 13,
+            "equationPreference": "Default",
+            "maintenanceCalories": 2900,
+            "targetCalories": 2500,
+            "timeToGoal": 90
+         }
+      ]
+   }
+]
+
+```
+
+#### Unsuccessful 
+
+## Requirements
 * Java Software Developer's Kit (SE) 1.8 or higher
 * sbt 1.3.4 or higher. Note: if you downloaded this project as a zip file from <https://developer.lightbend.com>, the file includes an sbt distribution for your convenience.
 
@@ -35,9 +98,3 @@ To build and run the project:
 3. After the message `Server started, ...` displays, enter the following URL in a browser: <http://localhost:9000>
 
 The Play application responds: `Welcome to the Hello World Tutorial!`
-# polybody-backend
-# polybody-backend
-# polybody-backend
-# polybody-backend
-# polybody-backend
-# polybody-backend
