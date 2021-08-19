@@ -2,6 +2,7 @@ package services
 
 import com.google.inject.Inject
 import connectors.UserConnector
+import helpers.{UserDoesNotExist, UserExistsAndValid}
 import models.PreviousWeight
 import play.api.Logging
 import reactivemongo.api.bson.BSONDocument
@@ -26,13 +27,13 @@ class PreviousWeightService @Inject()(userConnector: UserConnector, userService:
       .map(_.head.previousWeight.head)
   }
 
-  def addNewWeight(username: String, weight: Double) = {
+  def addNewWeight(username: String, weight: Double): Future[Int] = {
 
     val dateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
     val currentDate: String = LocalDate.now.format(dateTimeFormatter)
 
     //TODO Implement check
-//    userService.checkUserExists(username) match {
+//    userConnector.checkUserExists(username) match {
 //      case UserExistsAndValid =>
         val selector: BSONDocument = BSONDocument("username" -> username)
         val modifier: BSONDocument = BSONDocument(
@@ -43,15 +44,11 @@ class PreviousWeightService @Inject()(userConnector: UserConnector, userService:
             )
           )
         )
+        userConnector.addElement(selector, modifier)
 
-        userConnector.addWeight(selector, modifier)
-
-//      case UserDoesNotExist => logger.error("No such user")
-
-    }
-
-
-
-
-
+//      case UserDoesNotExist =>
+//        logger.error("No such user")
+//        Future.successful(400)
+//    }
+  }
 }

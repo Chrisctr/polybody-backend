@@ -45,8 +45,10 @@ class PreviousWeightController @Inject()(previousWeightService: PreviousWeightSe
 
     println(weight)
 
-    previousWeightService.addNewWeight(username, weight).map { data =>
-      Created(Json.toJson(data))
+    previousWeightService.addNewWeight(username, weight).map {
+      case 1 => Created(Json.toJson(2))
+      case 200 => Created(Json.toJson(200))
+      case 400 => BadRequest(Json.toJson(400))
     }
   }
 }

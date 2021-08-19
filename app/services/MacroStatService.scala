@@ -56,7 +56,7 @@ class MacroStatService @Inject()(userConnector: UserConnector, userService: User
       )
     )
 
-    userConnector.addWeight(selector, modifier)
+    userConnector.addElement(selector, modifier)
 
     //      case UserDoesNotExist => logger.error("No such user")
 
