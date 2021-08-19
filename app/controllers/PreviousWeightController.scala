@@ -15,10 +15,10 @@ class PreviousWeightController @Inject()(previousWeightService: PreviousWeightSe
 
     previousWeightService.findPreviousWeights(username) match {
       case Some(value) =>
-        val userJson = value.map {
+        val json = value.map {
           data => Json.arr(data)
         }
-        userJson.map { data =>
+        json.map { data =>
           logger.info(data.toString)
           Ok(data)
         }
@@ -26,18 +26,22 @@ class PreviousWeightController @Inject()(previousWeightService: PreviousWeightSe
         logger.error("NoContent")
         Future.successful(NoContent)
     }
-
   }
 
   def findLastPreviousWeight(username: String): Action[AnyContent] = Action.async { implicit request =>
 
-    val cursor = previousWeightService.findLastWeight(username)
-
-    val futureWeightJsonArray: Future[JsArray] =
-      cursor.map { weights => Json.arr(weights.maxBy(_.dateTime)) }
-
-    futureWeightJsonArray.map { weights =>
-      Ok(weights)
+    previousWeightService.findLastWeight(username) match {
+      case Some(value) =>
+        val json = value.map {
+          data => Json.arr(data.maxBy(_.dateTime))
+        }
+        json.map { data =>
+          logger.info(data.toString)
+          Ok(data)
+        }
+      case None =>
+        logger.error("NoContent")
+        Future.successful(NoContent)
     }
   }
 

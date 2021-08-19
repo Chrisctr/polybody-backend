@@ -1,19 +1,11 @@
 package controllers
 
 import com.google.inject.Inject
-import config.MongoConfiguration
-import models.{MacroStat, PreviousWeight, User}
-import play.api.http.Writeable
-import play.api.libs.json.{JsArray, JsObject, JsValue, Json, Writes}
-import play.api.mvc.{Action, AnyContent, BaseController, ControllerComponents, Request, Result}
-import reactivemongo.api.Cursor
-import connectors.UserConnector
 import play.api.Logging
-import reactivemongo.api.bson.BSONObjectID
-import reactivemongo.api.commands.WriteResult
+import play.api.libs.json.Json
+import play.api.mvc.{Action, AnyContent, BaseController, ControllerComponents}
 import services.UserService
 
-import java.time.LocalDate
 import scala.concurrent.{ExecutionContext, Future}
 
 class UserController @Inject()(userService: UserService, cc: ControllerComponents)(implicit val ec: ExecutionContext) extends BaseController with Logging {
@@ -23,10 +15,10 @@ class UserController @Inject()(userService: UserService, cc: ControllerComponent
 
     userService.findSpecificUser(username) match {
       case Some(value) =>
-        val userJson = value.map {
+        val json = value.map {
           data => Json.arr(data)
         }
-        userJson.map { data =>
+        json.map { data =>
           logger.info(data.toString)
           Ok(data)
         }

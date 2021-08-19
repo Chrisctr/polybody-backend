@@ -12,7 +12,7 @@ import java.time.format.DateTimeFormatter
 import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, ExecutionContext, Future}
 
-class PreviousWeightService @Inject()(userConnector: UserConnector, userService: UserService)(implicit ec: ExecutionContext) extends Logging {
+class PreviousWeightService @Inject()(userConnector: UserConnector)(implicit ec: ExecutionContext) extends Logging {
 
   def findPreviousWeights(username: String): Option[Future[Option[List[PreviousWeight]]]] = {
 
@@ -20,19 +20,26 @@ class PreviousWeightService @Inject()(userConnector: UserConnector, userService:
       case true =>
         Some(
           userConnector
-            .findSpecificUser(username)
-            .map(_.head.previousWeight)
+          .findSpecificUser(username)
+          .map(_.head.previousWeight)
         )
       case false => None
     }
     Await.result(verify, Duration(10, "seconds"))
   }
 
-  def findLastWeight(username: String): Future[List[PreviousWeight]] = {
+  def findLastWeight(username: String): Option[Future[List[PreviousWeight]]] = {
 
-    userConnector.
-      findSpecificUser(username)
-      .map(_.head.previousWeight.head)
+    val verify = userConnector.checkUserExists(username) map {
+      case true =>
+        Some(
+          userConnector
+            .findSpecificUser(username)
+            .map(_.head.previousWeight.head)
+        )
+      case false => None
+    }
+    Await.result(verify, Duration(10, "seconds"))
   }
 
   def addNewWeight(username: String, weight: Double): Future[Int] = {
