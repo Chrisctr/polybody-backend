@@ -1,7 +1,7 @@
 package controllers
 
 import com.google.inject.Inject
-import helpers.ControllerErrorHandler
+import helpers.ErrorHandler
 import models.MacroStatRequest
 import play.api.libs.json.{JsArray, Json}
 import play.api.mvc.{Action, AnyContent, BaseController, ControllerComponents}
@@ -9,7 +9,7 @@ import services.MacroStatService
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class MacroStatController @Inject()(macroStatService: MacroStatService, cc: ControllerComponents, controllerErrorHandler: ControllerErrorHandler)(implicit val ec: ExecutionContext) extends BaseController {
+class MacroStatController @Inject()(macroStatService: MacroStatService, cc: ControllerComponents, controllerErrorHandler: ErrorHandler)(implicit val ec: ExecutionContext) extends BaseController {
   override protected def controllerComponents: ControllerComponents = cc
 
   def findAllMacroStats(username: String): Action[AnyContent] = Action.async { implicit request =>

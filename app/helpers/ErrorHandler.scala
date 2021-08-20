@@ -9,8 +9,8 @@ import play.api.mvc.Results.{NoContent, Ok}
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class ControllerErrorHandler @Inject()()(implicit val ec: ExecutionContext) extends Logging {
-//TODO Implement ErrorHandlers to cut down on duplicate code
+class ErrorHandler @Inject()()(implicit val ec: ExecutionContext) extends Logging {
+//TODO Find a way to condense userErrorHandler, previousWeightErrorHandler and macroStatErrorHandler into one method to cut down on duplication
 
   def userErrorHandler(data: Option[Future[User]]): Future[Result] = {
     data match {
