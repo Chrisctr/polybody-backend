@@ -8,22 +8,37 @@ import reactivemongo.api.bson.BSONDocument
 
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.duration.Duration
+import scala.concurrent.{Await, ExecutionContext, Future}
 
 class MacroStatService @Inject()(userConnector: UserConnector, userService: UserService)(implicit ec: ExecutionContext) extends Logging {
 
-  def findMacroStats(username: String): Future[Option[List[MacroStat]]] = {
+  def findMacroStats(username: String): Option[Future[List[MacroStat]]] = {
 
-    userConnector.
-      findSpecificUser(username)
-      .map(_.head.macroStat)
+    val verify = userConnector.checkUserExists(username) map {
+      case true =>
+        Some(
+          userConnector
+            .findSpecificUser(username)
+            .map(_.head.macroStat.get)
+        )
+      case false => None
+    }
+    Await.result(verify, Duration(10, "seconds"))
   }
 
-  def findLastMacroStat(username: String): Future[List[MacroStat]] = {
+  def findLastMacroStat(username: String): Option[Future[List[MacroStat]]] = {
 
-    userConnector.
-      findSpecificUser(username)
-      .map(_.head.macroStat.head)
+    val verify = userConnector.checkUserExists(username) map {
+      case true =>
+        Some(
+          userConnector
+            .findSpecificUser(username)
+            .map(_.head.macroStat.head)
+        )
+      case false => None
+    }
+    Await.result(verify, Duration(10, "seconds"))
   }
 
   def addNewMacroStat(

@@ -14,14 +14,15 @@ import scala.concurrent.{Await, ExecutionContext, Future}
 
 class PreviousWeightService @Inject()(userConnector: UserConnector)(implicit ec: ExecutionContext) extends Logging {
 
-  def findPreviousWeights(username: String): Option[Future[Option[List[PreviousWeight]]]] = {
+  def findPreviousWeights(username: String): Option[Future[List[PreviousWeight]]] = {
 
     val verify = userConnector.checkUserExists(username) map {
       case true =>
         Some(
           userConnector
           .findSpecificUser(username)
-          .map(_.head.previousWeight)
+          .map(
+            _.head.previousWeight.get)
         )
       case false => None
     }
