@@ -27,7 +27,7 @@ object UserDetails {
     Some("Default"),
     2900,
     2500,
-    90
+    95
   )
 
   val user: User = new User(
