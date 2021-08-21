@@ -1,9 +1,9 @@
 package controllers
 
 import com.google.inject.Inject
+
 import helpers.ErrorHandler
 import play.api.Logging
-import play.api.libs.json.Json
 import play.api.mvc.{Action, AnyContent, BaseController, ControllerComponents}
 import services.UserService
 
