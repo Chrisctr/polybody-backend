@@ -15,8 +15,10 @@ class MongoConfiguration @Inject()()(implicit val ec: ExecutionContext) {
   lazy val driver: AsyncDriver = AsyncDriver()
   lazy val parsedUri: Future[MongoConnection.ParsedURI] = MongoConnection.fromString(mongoUri)
 
+  lazy val client: MongoClient = MongoClient(mongoUri)
+
   lazy val connection: Future[MongoConnection] = parsedUri.flatMap(driver.connect(_))
   lazy val db: Future[DB] = connection.flatMap(_.database("polybody"))
 
-  lazy val userCollection = db.map(_.collection[BSONCollection]("user"))
+  lazy val userCollection: Future[BSONCollection] = db.map(_.collection[BSONCollection]("user"))
 }
