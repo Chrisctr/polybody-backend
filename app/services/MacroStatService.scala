@@ -35,9 +35,6 @@ class MacroStatService @Inject()(userConnector: UserConnector)(implicit ec: Exec
     val dateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
     val currentDate: String = LocalDate.now.format(dateTimeFormatter)
 
-    //TODO Implement check
-    //    userService.checkUserExists(username) match {
-    //      case UserExistsAndValid =>
     val selector: BSONDocument = BSONDocument("username" -> username)
     val modifier: BSONDocument = BSONDocument(
       "$addToSet" -> BSONDocument(
@@ -65,6 +62,5 @@ class MacroStatService @Inject()(userConnector: UserConnector)(implicit ec: Exec
       case false => None
     }
     Await.result(verify, Duration(10, "seconds"))
-
   }
 }

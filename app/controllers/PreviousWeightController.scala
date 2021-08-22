@@ -23,12 +23,9 @@ class PreviousWeightController @Inject()(previousWeightService: PreviousWeightSe
 
     val content = request.body.asJson
 
-    //TODO Add getOrElse
     val weight: Option[Double] = content.map { data =>
       (data \ "weight").as[Double]
     }
-
-    println(weight)
 
     if (weight.isEmpty) {
       Future.successful(BadRequest("Missing parameters in request"))

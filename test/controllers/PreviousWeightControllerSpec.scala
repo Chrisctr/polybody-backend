@@ -4,14 +4,14 @@ import helpers.ErrorHandler
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.{reset, when}
 import play.api.http.Status.{NO_CONTENT, OK}
-import play.api.libs.json.{JsObject, JsValue}
+import play.api.libs.json.JsValue
 import play.api.mvc.AnyContent
 import play.api.mvc.Results.{NoContent, Ok}
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{defaultAwaitTimeout, status}
-import services.{PreviousWeightService, UserService}
-import utils.UserDetails.{passUsername, previousWeightList, user}
-import utils.{BaseSpec, UserDetails}
+import services.PreviousWeightService
+import utils.BaseSpec
+import utils.UserDetails.{passUsername, previousWeightList}
 
 import scala.concurrent.Future
 
@@ -65,8 +65,6 @@ class PreviousWeightControllerSpec extends BaseSpec {
         status(result) mustBe NO_CONTENT
       }
     }
-
-    //TODO - Add more when merged with error handling
   }
 
 
