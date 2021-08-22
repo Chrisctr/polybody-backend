@@ -19,13 +19,6 @@ class PreviousWeightController @Inject()(previousWeightService: PreviousWeightSe
     controllerErrorHandler.previousWeightErrorHandler(result)
   }
 
-  def findLastPreviousWeight(username: String): Action[AnyContent] = Action.async { implicit request =>
-
-    val result = previousWeightService.findLastWeight(username)
-
-    controllerErrorHandler.previousWeightErrorHandler(result)
-  }
-
   def addNewWeight(username: String): Action[AnyContent] = Action.async { implicit request =>
 
     val content = request.body.asJson

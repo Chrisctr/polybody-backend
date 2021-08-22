@@ -11,7 +11,7 @@ import java.time.format.DateTimeFormatter
 import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, ExecutionContext, Future}
 
-class MacroStatService @Inject()(userConnector: UserConnector, userService: UserService)(implicit ec: ExecutionContext) extends Logging {
+class MacroStatService @Inject()(userConnector: UserConnector)(implicit ec: ExecutionContext) extends Logging {
 
   def findMacroStats(username: String): Option[Future[List[MacroStat]]] = {
 
@@ -27,24 +27,10 @@ class MacroStatService @Inject()(userConnector: UserConnector, userService: User
     Await.result(verify, Duration(10, "seconds"))
   }
 
-  def findLastMacroStat(username: String): Option[Future[List[MacroStat]]] = {
-
-    val verify = userConnector.checkUserExists(username) map {
-      case true =>
-        Some(
-          userConnector
-            .findSpecificUser(username)
-            .map(_.head.macroStat.head)
-        )
-      case false => None
-    }
-    Await.result(verify, Duration(10, "seconds"))
-  }
-
   def addNewMacroStat(
                        username: String,
                        macroStatRequest: MacroStatRequest
-                     ) = {
+                     ): Option[Future[Int]] = {
 
     val dateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
     val currentDate: String = LocalDate.now.format(dateTimeFormatter)
@@ -71,9 +57,14 @@ class MacroStatService @Inject()(userConnector: UserConnector, userService: User
       )
     )
 
-    userConnector.addElement(selector, modifier)
-
-    //      case UserDoesNotExist => logger.error("No such user")
+    val verify = userConnector.checkUserExists(username) map {
+      case true =>
+        Some(
+          userConnector.addElement(selector, modifier)
+        )
+      case false => None
+    }
+    Await.result(verify, Duration(10, "seconds"))
 
   }
 

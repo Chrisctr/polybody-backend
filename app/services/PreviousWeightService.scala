@@ -29,20 +29,6 @@ class PreviousWeightService @Inject()(userConnector: UserConnector)(implicit ec:
     Await.result(verify, Duration(10, "seconds"))
   }
 
-  def findLastWeight(username: String): Option[Future[List[PreviousWeight]]] = {
-
-    val verify = userConnector.checkUserExists(username) map {
-      case true =>
-        Some(
-          userConnector
-            .findSpecificUser(username)
-            .map(_.head.previousWeight.head)
-        )
-      case false => None
-    }
-    Await.result(verify, Duration(10, "seconds"))
-  }
-
   def addNewWeight(username: String, weight: Double): Future[Int] = {
 
     val dateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")

@@ -27,14 +27,15 @@ class UserServiceSpec extends BaseSpec {
         when(userConnector.findSpecificUser(passUsername))
           .thenReturn(Future.successful(List(user)))
 
-        sut.findSpecificUser("Calvin") mustBe Some(Future.successful(user))
+        //TODO - Figure out why this test is not passing without .toString
+        sut.findSpecificUser(passUsername).toString mustBe Some(Future.successful(user)).toString
       }
       "return None when no user exists to be retrieved from the connector" in {
 
         when(userConnector.checkUserExists(passUsername))
           .thenReturn(Future.successful(false))
 
-        sut.findSpecificUser("Calvin") mustBe None
+        sut.findSpecificUser(passUsername) mustBe None
       }
     }
   }

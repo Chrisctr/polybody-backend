@@ -65,34 +65,6 @@ class PreviousWeightControllerSpec extends BaseSpec {
         status(result) mustBe NO_CONTENT
       }
     }
-    "findLastPreviousWeight is called" must {
-      "return OK response and the last of the user's previous weights if the user exists" in {
-
-        val requestedUserWeights = Some(Future.successful(previousWeightList))
-
-        when(previousWeightService.findLastWeight(passUsername))
-          .thenReturn(requestedUserWeights)
-
-        when(errorHandler.previousWeightErrorHandler(requestedUserWeights)).thenReturn(Future.successful(Ok(any[JsValue])))
-
-        val result = sut.findLastPreviousWeight(passUsername)(request)
-
-        status(result) mustBe OK
-      }
-      "return NO_CONTENT when no user exists" in {
-
-        val requestedUser = None
-
-        when(previousWeightService.findLastWeight(passUsername))
-          .thenReturn(requestedUser)
-
-        when(errorHandler.previousWeightErrorHandler(requestedUser)).thenReturn(Future.successful(NoContent))
-
-        val result = sut.findLastPreviousWeight(passUsername)(request)
-
-        status(result) mustBe NO_CONTENT
-      }
-    }
 
     //TODO - Add more when merged with error handling
   }

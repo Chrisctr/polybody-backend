@@ -1,10 +1,6 @@
 package models
 
-import org.joda.time.DateTime
-import play.api.libs.json
-import play.api.libs.json.{Format, JsError, JsResult, JsString, JsSuccess, JsValue, Json, OFormat}
-
-import java.time.format.DateTimeParseException
+import play.api.libs.json.{Json, OFormat}
 
 case class MacroStatRequest(
                       activityLevel: String,
