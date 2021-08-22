@@ -24,16 +24,23 @@ class PreviousWeightController @Inject()(previousWeightService: PreviousWeightSe
     val content = request.body.asJson
 
     //TODO Add getOrElse
-    val weight: Double = content.map { data =>
+    val weight: Option[Double] = content.map { data =>
       (data \ "weight").as[Double]
-    }.get
+    }
 
     println(weight)
 
-    previousWeightService.addNewWeight(username, weight).map {
-      case 1 => Created(Json.toJson(2))
-      case 200 => Created(Json.toJson(200))
-      case 400 => BadRequest(Json.toJson(400))
+    if (weight.isEmpty) {
+      Future.successful(BadRequest("Missing parameters in request"))
+    } else {
+      previousWeightService.addNewWeight(username, weight.get) match {
+        case Some(value) => value.map { data =>
+          Created(Json.toJson(data))
+        }
+        case None =>
+          logger.warn("NoContent")
+          Future.successful(NoContent)
+      }
     }
   }
 }

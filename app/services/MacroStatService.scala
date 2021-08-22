@@ -67,5 +67,4 @@ class MacroStatService @Inject()(userConnector: UserConnector)(implicit ec: Exec
     Await.result(verify, Duration(10, "seconds"))
 
   }
-
 }

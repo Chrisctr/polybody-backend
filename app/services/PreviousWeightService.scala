@@ -29,28 +29,29 @@ class PreviousWeightService @Inject()(userConnector: UserConnector)(implicit ec:
     Await.result(verify, Duration(10, "seconds"))
   }
 
-  def addNewWeight(username: String, weight: Double): Future[Int] = {
+  def addNewWeight(username: String, weight: Double): Option[Future[Int]] = {
 
     val dateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
     val currentDate: String = LocalDate.now.format(dateTimeFormatter)
 
-    //TODO Implement check
-//    userConnector.checkUserExists(username) match {
-//      case UserExistsAndValid =>
-        val selector: BSONDocument = BSONDocument("username" -> username)
-        val modifier: BSONDocument = BSONDocument(
-          "$addToSet" -> BSONDocument(
-            "previousWeight" -> BSONDocument(
-              "dateTime" -> currentDate,
-              "weight" -> weight
-            )
-          )
+    val selector: BSONDocument = BSONDocument("username" -> username)
+    val modifier: BSONDocument = BSONDocument(
+      "$addToSet" -> BSONDocument(
+        "previousWeight" -> BSONDocument(
+          "dateTime" -> currentDate,
+          "weight" -> weight
         )
-        userConnector.addElement(selector, modifier)
+      )
+    )
 
-//      case UserDoesNotExist =>
-//        logger.error("No such user")
-//        Future.successful(400)
-//    }
+    val verify = userConnector.checkUserExists(username) map {
+      case true =>
+        Some(
+          userConnector.addElement(selector, modifier)
+        )
+      case false => None
+    }
+    Await.result(verify, Duration(10, "seconds"))
+
   }
 }

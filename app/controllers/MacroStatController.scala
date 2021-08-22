@@ -25,12 +25,12 @@ class MacroStatController @Inject()(macroStatService: MacroStatService, cc: Cont
 
     val content = request.body.asJson
 
-    def macroStatRequest: Option[MacroStatRequest] = content.map(data => data.as[MacroStatRequest])
+    def macroStatData: Option[MacroStatRequest] = content.map(data => data.as[MacroStatRequest])
 
-    if (macroStatRequest.isEmpty) {
+    if (macroStatData.isEmpty) {
       Future.successful(BadRequest("Missing parameters in request"))
     } else {
-      macroStatService.addNewMacroStat(username, macroStatRequest.get) match {
+      macroStatService.addNewMacroStat(username, macroStatData.get) match {
         case Some(value) => value.map { data =>
           Created(Json.toJson(data))
         }
