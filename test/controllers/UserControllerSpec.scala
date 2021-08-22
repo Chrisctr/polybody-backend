@@ -1,12 +1,14 @@
 package controllers
 
-import akka.http.scaladsl.model.HttpHeader.ParsingResult.Ok
 import connectors.{UserConnector, UserConnectorSpec}
 import helpers.ErrorHandler
-import org.mockito.Mockito.when
+import org.mockito.ArgumentMatchers.any
+import org.mockito.Mockito
+import org.mockito.Mockito.{reset, when}
 import play.api.http.Status.OK
-import play.api.libs.json.JsObject
+import play.api.libs.json.{JsObject, JsValue}
 import play.api.mvc.AnyContent
+import play.api.mvc.Results.Ok
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{defaultAwaitTimeout, status}
 import services.UserService
@@ -16,8 +18,6 @@ import utils.{BaseSpec, UserDetails}
 import scala.concurrent.Future
 
 class UserControllerSpec extends BaseSpec {
-
-  private val userConnector = mock[UserConnector]
 
   private val userService = mock[UserService]
 
@@ -33,14 +33,23 @@ class UserControllerSpec extends BaseSpec {
 
   val json: JsObject = UserDetails.json
 
+  override def beforeEach(): Unit = {
+    reset(
+      userService,
+      errorHandler
+    )
+  }
+
   "UserController" when {
     "findSpecificUser is called" must {
       "return the specific user's details in full if a valid user exists" in {
 
-
+        val requestedUser = Some(Future.successful(user))
 
         when(userService.findSpecificUser("Calvin"))
-          .thenReturn(Some(Future.successful(user)))
+          .thenReturn(requestedUser)
+
+        when(errorHandler.userErrorHandler(requestedUser)).thenReturn(Future.successful(Ok(any[JsValue])))
 
         val result = sut.findSpecificUser("Calvin")(request)
 

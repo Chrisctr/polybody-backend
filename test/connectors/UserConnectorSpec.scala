@@ -1,7 +1,8 @@
 package connectors
 
 import config.ApplicationConfig
-import org.mockito.Mockito.when
+import org.mockito.Mockito
+import org.mockito.Mockito.{reset, when}
 import org.scalatest.concurrent.{IntegrationPatience, ScalaFutures}
 import play.api.Application
 import play.api.inject.guice.GuiceApplicationBuilder
@@ -18,6 +19,10 @@ class UserConnectorSpec extends BaseSpec with ScalaFutures with IntegrationPatie
 
   override lazy val app: Application = GuiceApplicationBuilder()
     .build()
+
+  override def beforeEach(): Unit = {
+    reset(userConnector)
+  }
 
   "userConnector" when {
     "findSpecificUser is called" must {
