@@ -7,6 +7,8 @@ import java.time.LocalDate
 
 object UserDetails {
 
+  val passUsername = "Calvin"
+
   val previousWeightList: List[PreviousWeight] = {
     List(
       PreviousWeight(LocalDate.of(2020, 6, 9), 250),

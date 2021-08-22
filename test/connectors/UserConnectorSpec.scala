@@ -6,6 +6,7 @@ import org.mockito.Mockito.{reset, when}
 import org.scalatest.concurrent.{IntegrationPatience, ScalaFutures}
 import play.api.Application
 import play.api.inject.guice.GuiceApplicationBuilder
+import utils.UserDetails.passUsername
 import utils.{BaseSpec, UserDetails}
 
 import scala.concurrent.duration.Duration
@@ -28,9 +29,9 @@ class UserConnectorSpec extends BaseSpec with ScalaFutures with IntegrationPatie
     "findSpecificUser is called" must {
       "return a List with a single user when a valid user is available" in {
 
-        when(userConnector.findSpecificUser("Calvin")).thenReturn(Future.successful(List(UserDetails.user)))
+        when(userConnector.findSpecificUser(passUsername)).thenReturn(Future.successful(List(UserDetails.user)))
 
-        val response = userConnector.findSpecificUser("Calvin")
+        val response = userConnector.findSpecificUser(passUsername)
 
         val result = Await.result(response, Duration(5, "seconds"))
 
@@ -38,9 +39,9 @@ class UserConnectorSpec extends BaseSpec with ScalaFutures with IntegrationPatie
       }
       "return an empty List when no users are available" in {
 
-        when(userConnector.findSpecificUser("NoUser")).thenReturn(Future.successful(List()))
+        when(userConnector.findSpecificUser("")).thenReturn(Future.successful(List()))
 
-        val response = userConnector.findSpecificUser("NoUser")
+        val response = userConnector.findSpecificUser("")
 
         val result = Await.result(response, Duration(5, "seconds"))
 

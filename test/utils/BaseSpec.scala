@@ -1,6 +1,5 @@
 package utils
 
-import org.mockito.Mockito.reset
 import org.scalatest.BeforeAndAfterEach
 import org.scalatest.matchers.must.Matchers
 import org.scalatest.wordspec.AnyWordSpec
@@ -16,5 +15,6 @@ class BaseSpec extends AnyWordSpec with GuiceOneAppPerSuite with MockitoSugar wi
   implicit lazy val ec = inject[ExecutionContext]
 
   lazy val cc = inject[ControllerComponents]
+
 
 }

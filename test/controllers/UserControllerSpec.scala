@@ -1,9 +1,7 @@
 package controllers
 
-import connectors.{UserConnector, UserConnectorSpec}
 import helpers.ErrorHandler
 import org.mockito.ArgumentMatchers.any
-import org.mockito.Mockito
 import org.mockito.Mockito.{reset, when}
 import play.api.http.Status.OK
 import play.api.libs.json.{JsObject, JsValue}
@@ -12,7 +10,7 @@ import play.api.mvc.Results.Ok
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{defaultAwaitTimeout, status}
 import services.UserService
-import utils.UserDetails.user
+import utils.UserDetails.{passUsername, user}
 import utils.{BaseSpec, UserDetails}
 
 import scala.concurrent.Future
@@ -46,12 +44,12 @@ class UserControllerSpec extends BaseSpec {
 
         val requestedUser = Some(Future.successful(user))
 
-        when(userService.findSpecificUser("Calvin"))
+        when(userService.findSpecificUser(passUsername))
           .thenReturn(requestedUser)
 
         when(errorHandler.userErrorHandler(requestedUser)).thenReturn(Future.successful(Ok(any[JsValue])))
 
-        val result = sut.findSpecificUser("Calvin")(request)
+        val result = sut.findSpecificUser(passUsername)(request)
 
         status(result) mustBe OK
       }
