@@ -18,3 +18,9 @@ case class MacroStatRequest(
                       targetCalories: Int,
                       timeToGoal: Int
                     )
+
+object MacroStatRequest {
+
+  implicit val formats: OFormat[MacroStatRequest] = Json.format[MacroStatRequest]
+
+}

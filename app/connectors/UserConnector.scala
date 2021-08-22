@@ -28,8 +28,8 @@ class UserConnector @Inject()(applicationConfiguration: ApplicationConfig)(impli
 
   def findSpecificUser(username: String): Future[List[User]] = {
     applicationConfiguration.userCollection.flatMap(_.find(document("username" -> username))
-      .cursor[User]().
-      collect[List](-1, Cursor.FailOnError[List[User]]()))
+      .cursor[User]()
+      .collect[List](-1, Cursor.FailOnError[List[User]]()))
   }
 
   def addElement(selector: BSONDocument, modifier: BSONDocument): Future[Int] = {

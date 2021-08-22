@@ -6,7 +6,7 @@ import org.mockito.Mockito.{reset, when}
 import org.scalatest.concurrent.{IntegrationPatience, ScalaFutures}
 import play.api.Application
 import play.api.inject.guice.GuiceApplicationBuilder
-import utils.UserDetails.passUsername
+import utils.UserDetails.{noUsername, passUsername}
 import utils.{BaseSpec, UserDetails}
 
 import scala.concurrent.duration.Duration
@@ -26,6 +26,29 @@ class UserConnectorSpec extends BaseSpec with ScalaFutures with IntegrationPatie
   }
 
   "userConnector" when {
+    "checkUserExists" must {
+      "return true if the user exists" in {
+        when(userConnector.checkUserExists(passUsername)).thenReturn(Future.successful(true))
+
+        val response = userConnector.checkUserExists(passUsername)
+
+        val result = Await.result(response, Duration(5, "seconds"))
+
+        result mustBe true
+      }
+      "return false if the user doesn't exist" in {
+
+        when(userConnector.checkUserExists(noUsername)).thenReturn(Future.successful(false))
+
+        val response = userConnector.checkUserExists(noUsername)
+
+        val result = Await.result(response, Duration(5, "seconds"))
+
+        result mustBe false
+      }
+      //TODO - Need to handle multiple users of the same username, which shouldn't be allowed
+    }
+
     "findSpecificUser is called" must {
       "return a List with a single user when a valid user is available" in {
 

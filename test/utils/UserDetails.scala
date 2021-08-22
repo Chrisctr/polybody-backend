@@ -7,6 +7,8 @@ import java.time.LocalDate
 
 object UserDetails {
 
+  val noUsername = "noUsername"
+
   val passUsername = "Calvin"
 
   val previousWeightList: List[PreviousWeight] = {
