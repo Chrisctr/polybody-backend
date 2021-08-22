@@ -18,18 +18,33 @@ object UserDetails {
     )
   }
 
-  val macroStat: MacroStat = new MacroStat(
-    LocalDate.of(2021, 8, 9),
-    "Very Active",
-    150,
-    Some(150),
-    Some(50),
-    Some(300),
-    Some(13),
-    Some("Default"),
-    2900,
-    2500,
-    95
+  val macroStatList: List[MacroStat] = List(
+    MacroStat(
+      LocalDate.of(2021, 8, 9),
+      "Very Active",
+      150,
+      Some(150),
+      Some(50),
+      Some(300),
+      Some(13),
+      Some("Default"),
+      2900,
+      2500,
+      95
+    ),
+    MacroStat(
+      LocalDate.of(2021, 7, 9),
+      "Active",
+      140,
+      Some(140),
+      Some(40),
+      Some(400),
+      Some(15),
+      Some("Default"),
+      2800,
+      3500,
+      85
+    )
   )
 
   val user: User = new User(
@@ -42,7 +57,7 @@ object UserDetails {
     140,
     Some(previousWeightList),
     Some(140),
-    Some(List(macroStat))
+    Some(macroStatList)
   )
 
   val json = Json.obj(

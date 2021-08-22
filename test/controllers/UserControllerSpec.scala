@@ -3,10 +3,10 @@ package controllers
 import helpers.ErrorHandler
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.{reset, when}
-import play.api.http.Status.OK
+import play.api.http.Status.{OK, NO_CONTENT}
 import play.api.libs.json.{JsObject, JsValue}
 import play.api.mvc.AnyContent
-import play.api.mvc.Results.Ok
+import play.api.mvc.Results.{NoContent, Ok}
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{defaultAwaitTimeout, status}
 import services.UserService
@@ -28,9 +28,7 @@ class UserControllerSpec extends BaseSpec {
   )
 
   implicit val request: FakeRequest[AnyContent] = FakeRequest()
-
-  val json: JsObject = UserDetails.json
-
+  
   override def beforeEach(): Unit = {
     reset(
       userService,
@@ -40,7 +38,7 @@ class UserControllerSpec extends BaseSpec {
 
   "UserController" when {
     "findSpecificUser is called" must {
-      "return the specific user's details in full if a valid user exists" in {
+      "return OK response and the specific user's details in full if a valid user exists" in {
 
         val requestedUser = Some(Future.successful(user))
 
@@ -53,9 +51,23 @@ class UserControllerSpec extends BaseSpec {
 
         status(result) mustBe OK
       }
+      "return NO_CONTENT when no user exists" in {
+
+        val requestedUser = None
+
+        when(userService.findSpecificUser(passUsername))
+          .thenReturn(requestedUser)
+
+        when(errorHandler.userErrorHandler(requestedUser)).thenReturn(Future.successful(NoContent))
+
+        val result = sut.findSpecificUser(passUsername)(request)
+
+        status(result) mustBe NO_CONTENT
+      }
     }
 
     //TODO - Add more when merged with error handling
   }
 
+  //TODO - Add PUT tests when error handling is implemented
 }
