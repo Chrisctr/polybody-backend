@@ -3,15 +3,15 @@ package controllers
 import helpers.ErrorHandler
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.{reset, when}
-import play.api.http.Status.{NO_CONTENT, OK}
-import play.api.libs.json.JsValue
+import play.api.http.Status.{BAD_REQUEST, CREATED, NO_CONTENT, OK}
+import play.api.libs.json.{JsValue, Json}
 import play.api.mvc.AnyContent
 import play.api.mvc.Results.{NoContent, Ok}
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{defaultAwaitTimeout, status}
 import services.PreviousWeightService
 import utils.BaseSpec
-import utils.UserDetails.{passUsername, previousWeightList}
+import utils.UserDetails.{macroStatRequest, passUsername, previousWeightList}
 
 import scala.concurrent.Future
 
@@ -66,7 +66,43 @@ class PreviousWeightControllerSpec extends BaseSpec {
       }
     }
   }
+  "addPreviousWeight is called" must {
 
+    val fakeJson: JsValue =
+      Json.obj(
+        "weight" -> 100
+      )
 
-  //TODO - Add PUT request tests
+    implicit val requestSuccess: FakeRequest[AnyContent] = FakeRequest().withJsonBody(fakeJson)
+
+    "return OK response and add new previous weight to user data" in {
+
+      when(previousWeightService.addNewWeight(any(), any()))
+        .thenReturn(Some(Future.successful(OK)))
+
+      val result = sut.addNewWeight(passUsername)(requestSuccess)
+
+      status(result) mustBe CREATED
+
+      // TODO - Find a way to test for the presence of new data
+    }
+    "return NO_CONTENT when no user exists" in {
+
+      when(previousWeightService.addNewWeight(any(), any()))
+        .thenReturn(None)
+
+      val result = sut.addNewWeight(passUsername)(requestSuccess)
+
+      status(result) mustBe NO_CONTENT
+    }
+    "return BAD_REQUEST when missing request parameter" in {
+
+      when(previousWeightService.addNewWeight(any(), any()))
+        .thenReturn(Some(Future.successful(OK)))
+
+      val result = sut.addNewWeight(passUsername)(request)
+
+      status(result) mustBe BAD_REQUEST
+    }
+  }
 }

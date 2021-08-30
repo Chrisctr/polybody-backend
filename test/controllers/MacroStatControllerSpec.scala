@@ -1,22 +1,25 @@
 package controllers
 
+import connectors.UserConnector
 import helpers.ErrorHandler
+import models.MacroStatRequest
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.{reset, when}
-import play.api.Play.materializer
-import play.api.http.Status.{BAD_REQUEST, NO_CONTENT, OK}
-import play.api.libs.json.{JsObject, JsValue, Json}
-import play.api.mvc.{AnyContent, BodyParser}
+import play.api.http.Status.{BAD_REQUEST, CREATED, NO_CONTENT, OK}
+import play.api.libs.json.{JsValue, Json}
+import play.api.mvc.AnyContent
 import play.api.mvc.Results.{NoContent, Ok}
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{defaultAwaitTimeout, status}
 import services.MacroStatService
 import utils.BaseSpec
-import utils.UserDetails.{json, macroStatList, macroStatRequest, passUsername}
+import utils.UserDetails.{macroStatList, macroStatRequest, passUsername}
 
 import scala.concurrent.Future
 
 class MacroStatControllerSpec extends BaseSpec {
+
+  private val userConnector = mock[UserConnector]
 
   private val macroStatService = mock[MacroStatService]
 
@@ -67,51 +70,46 @@ class MacroStatControllerSpec extends BaseSpec {
       }
     }
     "addNewMacroStat is called" must {
+
+      val fakeJson: JsValue =
+        Json.obj(
+          "activityLevel" -> "Active",
+          "setGoal" -> 200,
+          "proteinPreference" -> 155,
+          "fatPreference" -> 55,
+          "carbPreference" -> 400,
+          "bodyFat" -> 11,
+          "equationPreference" -> "Default",
+          "maintenanceCalories" -> 2800,
+          "targetCalories" -> 3500,
+          "timeToGoal" -> 160
+        )
+
+      implicit val requestSuccess: FakeRequest[AnyContent] = FakeRequest().withJsonBody(fakeJson)
+
       "return OK response and add new macro stat to user data" in {
 
-        val fakeJson: AnyContent =
-          AnyContent(
-            Json.obj(
-              "activityLevel" -> "Active",
-              "setGoal" -> 200,
-              "proteinPreference" -> 155,
-              "fatPreference" -> 55,
-              "carbPreference" -> 400,
-              "bodyFat" -> 11,
-              "equationPreference" -> "Default",
-              "maintenanceCalories" -> 2800,
-              "targetCalories" -> 3500,
-              "timeToGoal" -> 160
-            )
-          )
-
-        implicit val request: FakeRequest[AnyContent] = FakeRequest().withBody(fakeJson)
-
-
-        when(macroStatService.addNewMacroStat(passUsername, macroStatRequest))
+        when(macroStatService.addNewMacroStat(any(), any()))
           .thenReturn(Some(Future.successful(OK)))
 
-        val result = sut.addNewMacroStat(passUsername)(request)
+        val result = sut.addNewMacroStat(passUsername)(requestSuccess)
 
-        status(result) mustBe OK
+        status(result) mustBe CREATED
 
-//        val confirm = sut.findAllMacroStats(passUsername)(request)
-//
-//        status(confirm) mustBe OK
+      // TODO - Find a way to test for the presence of new data
       }
       "return NO_CONTENT when no user exists" in {
 
-        when(macroStatService.addNewMacroStat(passUsername, macroStatRequest))
+        when(macroStatService.addNewMacroStat(any(), any()))
           .thenReturn(None)
 
-        val result = sut.addNewMacroStat(passUsername)(request)
+        val result = sut.addNewMacroStat(passUsername)(requestSuccess)
 
         status(result) mustBe NO_CONTENT
-
       }
       "return BAD_REQUEST when missing request parameters" in {
 
-        when(macroStatService.addNewMacroStat(passUsername, macroStatRequest))
+        when(macroStatService.addNewMacroStat(any(), any()))
           .thenReturn(Some(Future.successful(OK)))
 
         val result = sut.addNewMacroStat(passUsername)(request)
