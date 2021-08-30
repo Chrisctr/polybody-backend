@@ -11,7 +11,7 @@ import play.api.test.FakeRequest
 import play.api.test.Helpers.{defaultAwaitTimeout, status}
 import services.PreviousWeightService
 import utils.BaseSpec
-import utils.UserDetails.{macroStatRequest, passUsername, previousWeightList}
+import utils.UserDetails.{passUsername, previousWeightList}
 
 import scala.concurrent.Future
 

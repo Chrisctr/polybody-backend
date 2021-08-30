@@ -52,6 +52,5 @@ class PreviousWeightService @Inject()(userConnector: UserConnector)(implicit ec:
       case false => None
     }
     Await.result(verify, Duration(10, "seconds"))
-
   }
 }

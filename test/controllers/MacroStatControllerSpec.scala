@@ -1,8 +1,6 @@
 package controllers
 
-import connectors.UserConnector
 import helpers.ErrorHandler
-import models.MacroStatRequest
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.{reset, when}
 import play.api.http.Status.{BAD_REQUEST, CREATED, NO_CONTENT, OK}
@@ -13,13 +11,11 @@ import play.api.test.FakeRequest
 import play.api.test.Helpers.{defaultAwaitTimeout, status}
 import services.MacroStatService
 import utils.BaseSpec
-import utils.UserDetails.{macroStatList, macroStatRequest, passUsername}
+import utils.UserDetails.{macroStatList, passUsername}
 
 import scala.concurrent.Future
 
 class MacroStatControllerSpec extends BaseSpec {
-
-  private val userConnector = mock[UserConnector]
 
   private val macroStatService = mock[MacroStatService]
 
