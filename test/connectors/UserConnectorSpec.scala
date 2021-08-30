@@ -6,9 +6,12 @@ import org.mockito.Mockito.{reset, when}
 import org.scalatest.concurrent.{IntegrationPatience, ScalaFutures}
 import play.api.Application
 import play.api.inject.guice.GuiceApplicationBuilder
+import reactivemongo.api.bson.BSONDocument
 import utils.UserDetails.{noUsername, passUsername}
 import utils.{BaseSpec, UserDetails}
 
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, Future}
 
@@ -72,6 +75,34 @@ class UserConnectorSpec extends BaseSpec with ScalaFutures with IntegrationPatie
       }
       //TODO - Add test for when database is down after implementing error handling
     }
-  }
 
+    "addElement is called" must {
+
+      val dateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+      val currentDate: String = LocalDate.now.format(dateTimeFormatter)
+
+      val selector: BSONDocument = BSONDocument("username" -> "testName")
+      val modifier: BSONDocument = BSONDocument(
+        "$addToSet" -> BSONDocument(
+          "previousWeight" -> BSONDocument(
+            "dateTime" -> currentDate,
+            "weight" -> 100
+          )
+        )
+      )
+
+      "return a Future[Int] when data is successfully upserted" in {
+
+        when(userConnector.addElement(selector, modifier)).thenReturn(Future.successful(1))
+
+        val response = userConnector.addElement(selector, modifier)
+
+        val result = Await.result(response, Duration(5, "seconds"))
+
+        result mustBe 1
+
+      }
+      // TODO - Determine if error scenarios are here after figuring out database tests as error scenarios are mostly handled by the controller and service layers
+    }
+  }
 }
