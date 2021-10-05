@@ -2,7 +2,7 @@ package controllers
 
 import com.google.inject.Inject
 import helpers.ErrorHandler
-import models.MacroStatRequest
+import models.MacroStatFull
 import play.api.Logging
 import play.api.libs.json.Format.GenericFormat
 import play.api.libs.json.{JsArray, Json}
@@ -25,7 +25,7 @@ class MacroStatController @Inject()(macroStatService: MacroStatService, cc: Cont
 
     val content = request.body.asJson
 
-    def macroStatData: Option[MacroStatRequest] = content.map(data => data.as[MacroStatRequest])
+    def macroStatData: Option[MacroStatFull] = content.map(data => data.as[MacroStatFull])
 
     if (macroStatData.isEmpty) {
       Future.successful(BadRequest("Missing parameters in request"))

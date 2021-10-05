@@ -1,6 +1,6 @@
 package utils
 
-import models.{MacroStat, MacroStatRequest, PreviousWeight, User}
+import models.{MacroStat, MacroStatFull, PreviousWeight, UserFull}
 import play.api.libs.json.Json
 
 import java.time.LocalDate
@@ -11,8 +11,8 @@ object UserDetails {
 
   val passUsername = "Calvin"
 
-  val macroStatRequest: MacroStatRequest = {
-    MacroStatRequest(
+  val macroStatRequest: MacroStatFull = {
+    MacroStatFull(
       "Sedentary",
       180,
       Some(200),
@@ -64,7 +64,7 @@ object UserDetails {
     )
   )
 
-  val user: User = new User(
+  val user: UserFull = new UserFull(
     "611be0d7e17315ce09335455",
     "Calvin",
     "calvin@gmail.com",

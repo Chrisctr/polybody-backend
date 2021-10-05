@@ -2,7 +2,7 @@ package services
 
 import com.google.inject.Inject
 import connectors.UserConnector
-import models.{MacroStat, MacroStatRequest, PreviousWeight}
+import models.{MacroStat, MacroStatFull, PreviousWeight}
 import play.api.Logging
 import reactivemongo.api.bson.BSONDocument
 
@@ -19,7 +19,7 @@ class MacroStatService @Inject()(userConnector: UserConnector)(implicit ec: Exec
       case true =>
         Some(
           userConnector
-            .findSpecificUser(username)
+            .findSpecificUserFull(username)
             .map(_.head.macroStat.get)
         )
       case false => None
@@ -29,7 +29,7 @@ class MacroStatService @Inject()(userConnector: UserConnector)(implicit ec: Exec
 
   def addNewMacroStat(
                        username: String,
-                       macroStatRequest: MacroStatRequest
+                       macroStatRequest: MacroStatFull
                      ): Option[Future[Int]] = {
 
     val dateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")

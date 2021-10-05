@@ -5,7 +5,7 @@ import utils.BaseSpec
 
 import java.time.LocalDate
 
-class UserSpec extends BaseSpec {
+class UserFullSpec extends BaseSpec {
 
   val previousWeightList: List[PreviousWeight] = {
     List(
@@ -28,7 +28,7 @@ class UserSpec extends BaseSpec {
     10
   )
 
-  val user: User = new User(
+  val user: UserFull = new UserFull(
     "testId",
     "testUsername",
     "testEmail@email.com",
@@ -78,7 +78,7 @@ class UserSpec extends BaseSpec {
 
     "deserialise valid values" in {
 
-      val result = json.as[User]
+      val result = json.as[UserFull]
 
       result mustBe user
 
@@ -99,7 +99,7 @@ class UserSpec extends BaseSpec {
       )
 
       val ex = intercept[JsResultException] {
-        invalidJson.as[User]
+        invalidJson.as[UserFull]
       }
 
       ex.getMessage mustBe "JsResultException(errors:List((/height,List(JsonValidationError(List(error.expected.jsnumber),List()))), (/username,List(JsonValidationError(List(error.expected.jsstring),List()))), (/_id,List(JsonValidationError(List(error.expected.jsstring),List()))), (/targetWeight,List(JsonValidationError(List(error.expected.jsnumber),List()))), (/gender,List(JsonValidationError(List(error.expected.jsstring),List()))), (/age,List(JsonValidationError(List(error.expected.jsnumber),List()))), (/email,List(JsonValidationError(List(error.expected.jsstring),List())))))"
@@ -119,7 +119,7 @@ class UserSpec extends BaseSpec {
       )
 
       val ex = intercept[JsResultException] {
-        invalidJson.as[User]
+        invalidJson.as[UserFull]
       }
 
       ex.getMessage mustBe "JsResultException(errors:List((/height,List(JsonValidationError(List(error.path.missing),List()))), (/username,List(JsonValidationError(List(error.path.missing),List()))), (/_id,List(JsonValidationError(List(error.path.missing),List()))), (/gender,List(JsonValidationError(List(error.path.missing),List()))), (/age,List(JsonValidationError(List(error.path.missing),List()))), (/email,List(JsonValidationError(List(error.path.missing),List())))))"
@@ -132,7 +132,7 @@ class UserSpec extends BaseSpec {
 
     "serialise/deserialise to the same value" in {
 
-      val result = Json.toJson(user).as[User]
+      val result = Json.toJson(user).as[UserFull]
 
       result mustBe user
     }
