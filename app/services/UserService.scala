@@ -2,20 +2,19 @@ package services
 
 import com.google.inject.Inject
 import connectors.UserConnector
-import helpers.{UserDoesNotExist, UserExistsAndValid}
-import play.api.mvc.Results.{BadRequest, NotFound, Ok}
+import models.User
 
-import scala.concurrent.Future
+import scala.concurrent.duration.Duration
+import scala.concurrent.{Await, ExecutionContext, Future}
 
-class UserService @Inject()(userConnector: UserConnector) {
+class UserService @Inject()(userConnector: UserConnector)(implicit val ec: ExecutionContext) {
 
-  def checkUserExists(username: String) = {
-    val userSearch = Option(userConnector.findSpecificUser(username))
+  def findSpecificUser(username: String): Option[Future[User]] = {
 
-    userSearch match {
-      case None => UserDoesNotExist
-      case _ => UserExistsAndValid
+    val verify = userConnector.checkUserExists(username) map {
+      case true => Some(userConnector.findSpecificUser(username).map(_.head))
+      case false => None
     }
+    Await.result(verify, Duration(10, "seconds"))
   }
-
 }

@@ -1,32 +1,22 @@
 package controllers
 
 import com.google.inject.Inject
-import config.MongoConfiguration
-import models.{MacroStat, PreviousWeight, User}
-import play.api.http.Writeable
-import play.api.libs.json.{JsArray, JsObject, JsValue, Json, Writes}
-import play.api.mvc.{Action, AnyContent, BaseController, ControllerComponents, Request, Result}
-import reactivemongo.api.Cursor
-import connectors.UserConnector
-import reactivemongo.api.bson.BSONObjectID
-import reactivemongo.api.commands.WriteResult
 
-import java.time.LocalDate
+import helpers.ErrorHandler
+import play.api.Logging
+import play.api.mvc.{Action, AnyContent, BaseController, ControllerComponents}
+import services.UserService
+
 import scala.concurrent.{ExecutionContext, Future}
 
-class UserController @Inject()(userConnector: UserConnector, cc: ControllerComponents)(implicit val ec: ExecutionContext) extends BaseController {
+class UserController @Inject()(userService: UserService, cc: ControllerComponents, controllerErrorHandler: ErrorHandler)(implicit val ec: ExecutionContext) extends BaseController with Logging {
   override protected def controllerComponents: ControllerComponents = cc
 
   def findSpecificUser(username: String): Action[AnyContent] = Action.async { implicit request =>
 
-    val cursor = userConnector.findSpecificUser(username)
+    val result = userService.findSpecificUser(username)
 
-    val futureUserJsonArray: Future[JsArray] =
-      cursor.map { user => Json.arr(user) }
-
-    futureUserJsonArray.map { user =>
-      Ok(user)
-    }
+    controllerErrorHandler.userErrorHandler(result)
   }
 
 

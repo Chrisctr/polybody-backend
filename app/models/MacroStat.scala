@@ -1,16 +1,11 @@
 package models
 
-import helpers.FormBinding
-
-import java.time.format.DateTimeParseException
 import org.joda.time.DateTime
-import play.api.data.Forms.{date, mapping, number, of, optional, text, tuple}
-import play.api.data.{Form, Mapping}
 import play.api.libs.json
 import play.api.libs.json._
 
 import java.time.LocalDate
-
+import java.time.format.DateTimeParseException
 
 case class MacroStat(
                       dateTime: LocalDate,
