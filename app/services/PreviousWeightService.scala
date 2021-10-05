@@ -20,7 +20,7 @@ class PreviousWeightService @Inject()(userConnector: UserConnector)(implicit ec:
       case true =>
         Some(
           userConnector
-          .findSpecificUser(username)
+          .findSpecificUserFull(username)
           .map(
             _.head.previousWeight.get)
         )

@@ -1,7 +1,7 @@
 package config
 
 import com.google.inject.Inject
-import models.User
+import models.UserFull
 import org.mongodb.scala.{MongoClient, MongoCollection, MongoDatabase, connection}
 import play.api.Configuration
 import reactivemongo.api.bson.collection.BSONCollection
