@@ -17,9 +17,9 @@ import scala.concurrent.{Await, Future}
 
 class UserFullConnectorSpec extends BaseSpec with ScalaFutures with IntegrationPatience {
 
-  val config = inject[ApplicationConfig]
+  val config: ApplicationConfig = inject[ApplicationConfig]
 
-  lazy val userConnector = mock[UserConnector]
+  lazy val userConnector: UserConnector = mock[UserConnector]
 
   override lazy val app: Application = GuiceApplicationBuilder()
     .build()
@@ -29,7 +29,7 @@ class UserFullConnectorSpec extends BaseSpec with ScalaFutures with IntegrationP
   }
 
   "userConnector" when {
-    "checkUserExists" must {
+    "checkUserExists is called" must {
       "return true if the user exists" in {
         when(userConnector.checkUserExists(passUsername)).thenReturn(Future.successful(true))
 
