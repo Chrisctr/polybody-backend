@@ -2,7 +2,7 @@ package models
 
 import play.api.libs.json.{Json, OFormat}
 
-case class MacroStatRequest(
+case class MacroStatFull(
                       activityLevel: String,
                       setGoal: Double,
                       proteinPreference: Option[Int],
@@ -15,8 +15,8 @@ case class MacroStatRequest(
                       timeToGoal: Int
                     )
 
-object MacroStatRequest {
+object MacroStatFull {
 
-  implicit val formats: OFormat[MacroStatRequest] = Json.format[MacroStatRequest]
+  implicit val formats: OFormat[MacroStatFull] = Json.format[MacroStatFull]
 
 }

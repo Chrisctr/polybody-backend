@@ -15,11 +15,11 @@ import java.time.format.DateTimeFormatter
 import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, Future}
 
-class UserConnectorSpec extends BaseSpec with ScalaFutures with IntegrationPatience {
+class UserFullConnectorSpec extends BaseSpec with ScalaFutures with IntegrationPatience {
 
-  val config = inject[ApplicationConfig]
+  val config: ApplicationConfig = inject[ApplicationConfig]
 
-  lazy val userConnector = mock[UserConnector]
+  lazy val userConnector: UserConnector = mock[UserConnector]
 
   override lazy val app: Application = GuiceApplicationBuilder()
     .build()
@@ -29,7 +29,7 @@ class UserConnectorSpec extends BaseSpec with ScalaFutures with IntegrationPatie
   }
 
   "userConnector" when {
-    "checkUserExists" must {
+    "checkUserExists is called" must {
       "return true if the user exists" in {
         when(userConnector.checkUserExists(passUsername)).thenReturn(Future.successful(true))
 

@@ -2,7 +2,7 @@ package services
 
 import com.google.inject.Inject
 import connectors.UserConnector
-import models.User
+import models.{User, UserFull}
 
 import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, ExecutionContext, Future}

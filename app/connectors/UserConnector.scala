@@ -2,7 +2,7 @@ package connectors
 
 import com.google.inject.Inject
 import config.ApplicationConfig
-import models.User
+import models.{User, UserFull}
 import play.api.Logging
 import reactivemongo.api.Cursor
 import reactivemongo.api.bson.{BSONDocument, document}
@@ -30,6 +30,12 @@ class UserConnector @Inject()(applicationConfiguration: ApplicationConfig)(impli
     applicationConfiguration.userCollection.flatMap(_.find(document("username" -> username))
       .cursor[User]()
       .collect[List](-1, Cursor.FailOnError[List[User]]()))
+  }
+
+  def findSpecificUserFull(username: String): Future[List[UserFull]] = {
+    applicationConfiguration.userCollection.flatMap(_.find(document("username" -> username))
+      .cursor[UserFull]()
+      .collect[List](-1, Cursor.FailOnError[List[UserFull]]()))
   }
 
   def addElement(selector: BSONDocument, modifier: BSONDocument): Future[Int] = {

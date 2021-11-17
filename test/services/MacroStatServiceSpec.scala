@@ -4,7 +4,7 @@ import connectors.UserConnector
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.{reset, when}
 import utils.BaseSpec
-import utils.UserDetails.{macroStatList, macroStatRequest, passUsername, previousWeightList, user}
+import utils.UserDetails.{macroStatList, macroStatRequest, passUsername, previousWeightList, user, userFull}
 
 import scala.concurrent.Future
 
@@ -25,8 +25,8 @@ class MacroStatServiceSpec extends BaseSpec {
         when(userConnector.checkUserExists(passUsername))
           .thenReturn(Future.successful(true))
 
-        when(userConnector.findSpecificUser(passUsername))
-          .thenReturn(Future.successful(List(user)))
+        when(userConnector.findSpecificUserFull(passUsername))
+          .thenReturn(Future.successful(List(userFull)))
 
         //TODO - Figure out why this test is not passing without .toString
         sut.findMacroStats(passUsername).toString mustBe Some(Future.successful(macroStatList)).toString

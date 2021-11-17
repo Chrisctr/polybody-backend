@@ -1,7 +1,7 @@
 package helpers
 
 import com.google.inject.Inject
-import models.{MacroStat, PreviousWeight, User}
+import models.{MacroStat, PreviousWeight, User, UserFull}
 import play.api.Logging
 import play.api.libs.json.{JsArray, Json}
 import play.api.mvc.Result
