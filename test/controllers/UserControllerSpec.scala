@@ -15,7 +15,7 @@ import utils.UserDetails.{passUsername, user}
 
 import scala.concurrent.Future
 
-class UserFullControllerSpec extends BaseSpec {
+class UserControllerSpec extends BaseSpec {
 
   private val userService = mock[UserService]
 

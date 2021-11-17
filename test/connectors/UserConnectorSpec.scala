@@ -15,7 +15,7 @@ import java.time.format.DateTimeFormatter
 import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, Future}
 
-class UserFullConnectorSpec extends BaseSpec with ScalaFutures with IntegrationPatience {
+class UserConnectorSpec extends BaseSpec with ScalaFutures with IntegrationPatience {
 
   val config: ApplicationConfig = inject[ApplicationConfig]
 
