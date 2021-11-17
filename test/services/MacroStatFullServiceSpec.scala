@@ -8,7 +8,7 @@ import utils.UserDetails.{macroStatList, macroStatRequest, passUsername, previou
 
 import scala.concurrent.Future
 
-class MacroStatServiceSpec extends BaseSpec {
+class MacroStatFullServiceSpec extends BaseSpec {
 
   lazy val userConnector: UserConnector = mock[UserConnector]
 

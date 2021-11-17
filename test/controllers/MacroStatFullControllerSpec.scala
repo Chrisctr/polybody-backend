@@ -15,7 +15,7 @@ import utils.UserDetails.{macroStatList, passUsername}
 
 import scala.concurrent.Future
 
-class MacroStatControllerSpec extends BaseSpec {
+class MacroStatFullControllerSpec extends BaseSpec {
 
   private val macroStatService = mock[MacroStatService]
 

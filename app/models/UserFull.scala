@@ -11,7 +11,7 @@ case class UserFull(
                  height: Double,
                  previousWeight: Option[List[PreviousWeight]],
                  targetWeight: Option[Double],
-                 macroStat: Option[List[MacroStat]]
+                 macroStat: Option[List[MacroStatFull]]
                )
 
 object UserFull {

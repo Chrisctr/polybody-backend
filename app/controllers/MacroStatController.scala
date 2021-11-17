@@ -2,7 +2,7 @@ package controllers
 
 import com.google.inject.Inject
 import helpers.ErrorHandler
-import models.MacroStatFull
+import models.MacroStat
 import play.api.Logging
 import play.api.libs.json.Format.GenericFormat
 import play.api.libs.json.{JsArray, Json}
@@ -25,7 +25,7 @@ class MacroStatController @Inject()(macroStatService: MacroStatService, cc: Cont
 
     val content = request.body.asJson
 
-    def macroStatData: Option[MacroStatFull] = content.map(data => data.as[MacroStatFull])
+    def macroStatData: Option[MacroStat] = content.map(data => data.as[MacroStat])
 
     if (macroStatData.isEmpty) {
       Future.successful(BadRequest("Missing parameters in request"))
@@ -41,3 +41,18 @@ class MacroStatController @Inject()(macroStatService: MacroStatService, cc: Cont
     }
   }
 }
+
+//val macroStatData: Option[MacroStat] = content.map { data =>
+//  MacroStat(
+//  activityLevel = (data \ "activityLevel").as[String],
+//  setGoal = (data \ "setGoal").as[Double],
+//  proteinPreference = Some((data \ "proteinPreference").as[Int]),
+//  fatPreference = Some((data \ "fatPreference").as[Int]),
+//  carbPreference = Some((data \ "carbPreference").as[Int]),
+//  bodyFat = Some((data \ "bodyFat").as[Double]),
+//  equationPreference = Some((data \ "equationPreference").as[String]),
+//  maintenanceCalories = (data \ "maintenanceCalories").as[Int],
+//  targetCalories = (data \ "targetCalories").as[Int],
+//  timeToGoal = (data \ "timeToGoal").as[Int]
+//  )
+//  }

@@ -14,7 +14,7 @@ class UserFullSpec extends BaseSpec {
     )
   }
 
-  val macroStat: MacroStat = new MacroStat(
+  val macroStat: MacroStatFull = new MacroStatFull(
     LocalDate.of(2020, 3, 24),
     "Very Active",
     160,

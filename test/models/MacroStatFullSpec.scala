@@ -5,9 +5,9 @@ import utils.BaseSpec
 
 import java.time.LocalDate
 
-class MacroStatSpec extends BaseSpec {
+class MacroStatFullSpec extends BaseSpec {
 
-  val macroStat: MacroStat = new MacroStat(
+  val macroStat: MacroStatFull = new MacroStatFull(
     LocalDate.of(2020, 3, 24),
     "Very Active",
     160,
@@ -38,7 +38,7 @@ class MacroStatSpec extends BaseSpec {
 
     "deserialise valid values" in {
 
-      val result = json.as[MacroStat]
+      val result = json.as[MacroStatFull]
 
       result mustBe macroStat
     }
@@ -58,7 +58,7 @@ class MacroStatSpec extends BaseSpec {
       )
 
       val ex = intercept[JsResultException] {
-        invalidJson.as[MacroStat]
+        invalidJson.as[MacroStatFull]
       }
 
       ex.getMessage mustBe "JsResultException(errors:List((/dateTime,List(JsonValidationError(List(error.expected.date.isoformat),ArraySeq(ParseCaseSensitive(false)(Value(Year,4,10,EXCEEDS_PAD)'-'Value(MonthOfYear,2)'-'Value(DayOfMonth,2))[Offset(+HH:MM:ss,'Z')]))))))"
@@ -81,7 +81,7 @@ class MacroStatSpec extends BaseSpec {
       )
 
       val ex = intercept[JsResultException] {
-        invalidJson.as[MacroStat]
+        invalidJson.as[MacroStatFull]
       }
 
       ex.getMessage mustBe "JsResultException(errors:List((/activityLevel,List(JsonValidationError(List(error.path.missing),List()))), (/maintenanceCalories,List(JsonValidationError(List(error.path.missing),List()))), (/dateTime,List(JsonValidationError(List(error.path.missing),List()))), (/timeToGoal,List(JsonValidationError(List(error.path.missing),List()))), (/setGoal,List(JsonValidationError(List(error.path.missing),List()))), (/targetCalories,List(JsonValidationError(List(error.path.missing),List())))))"
@@ -94,7 +94,7 @@ class MacroStatSpec extends BaseSpec {
 
     "serialise/deserialise to the same value" in {
 
-      val result = Json.toJson(macroStat).as[MacroStat]
+      val result = Json.toJson(macroStat).as[MacroStatFull]
 
       result mustBe macroStat
     }

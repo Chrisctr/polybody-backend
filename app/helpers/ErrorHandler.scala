@@ -1,7 +1,7 @@
 package helpers
 
 import com.google.inject.Inject
-import models.{MacroStat, PreviousWeight, User, UserFull}
+import models.{MacroStatFull, PreviousWeight, User, UserFull}
 import play.api.Logging
 import play.api.libs.json.{JsArray, Json}
 import play.api.mvc.Result
@@ -44,7 +44,7 @@ class ErrorHandler @Inject()()(implicit val ec: ExecutionContext) extends Loggin
     }
   }
 
-  def macroStatErrorHandler(data: Option[Future[List[MacroStat]]]): Future[Result] = {
+  def macroStatErrorHandler(data: Option[Future[List[MacroStatFull]]]): Future[Result] = {
     data match {
       case Some(value) =>
         val json = value.map {
