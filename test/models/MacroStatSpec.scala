@@ -5,7 +5,7 @@ import utils.BaseSpec
 
 import java.time.LocalDate
 
-class MacroStatFullSpec extends BaseSpec {
+class MacroStatSpec extends BaseSpec {
 
   val macroStat: MacroStatFull = new MacroStatFull(
     LocalDate.of(2020, 3, 24),

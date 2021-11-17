@@ -5,7 +5,7 @@ import utils.BaseSpec
 
 import java.time.LocalDate
 
-class UserFullSpec extends BaseSpec {
+class UserSpec extends BaseSpec {
 
   val previousWeightList: List[PreviousWeight] = {
     List(
