@@ -7,7 +7,7 @@ import utils.{BaseSpec, UserDetails}
 
 import scala.concurrent.Future
 
-class UserFullServiceSpec extends BaseSpec {
+class UserServiceSpec extends BaseSpec {
 
   lazy val userConnector: UserConnector = mock[UserConnector]
 
