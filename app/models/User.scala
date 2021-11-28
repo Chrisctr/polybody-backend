@@ -1,18 +1,24 @@
 package models
 
-import play.api.libs.json.{Json, OFormat}
+import helpers.DateTimeFormat
+import org.joda.time.DateTime
+import play.api.libs.json.{Format, Json, OFormat}
+
+import java.time.LocalDate
 
 case class User(
                  _id: String,
                  username: String,
                  email: String,
-                 age: Int,
+                 dob: LocalDate,
                  gender: String,
                  height: Double,
                  targetWeight: Option[Double],
                )
 
 object User {
+
+  implicit val dateTimeFormat: Format[DateTime] = DateTimeFormat.dateTimeFormat
 
   implicit val formats: OFormat[User] = Json.format[User]
 

@@ -35,7 +35,7 @@ class PreviousWeightSpec extends BaseSpec {
         invalidJson.as[PreviousWeight]
       }
 
-      ex.getMessage mustBe "JsResultException(errors:List((/dateTime,List(JsonValidationError(List(That's not a date),List()))), (/weight,List(JsonValidationError(List(error.expected.jsnumber),List())))))"
+      ex.getMessage mustBe "JsResultException(errors:List((/dateTime,List(JsonValidationError(List(error.expected.date.isoformat),ArraySeq(ParseCaseSensitive(false)(Value(Year,4,10,EXCEEDS_PAD)'-'Value(MonthOfYear,2)'-'Value(DayOfMonth,2))[Offset(+HH:MM:ss,'Z')])))), (/weight,List(JsonValidationError(List(error.expected.jsnumber),List())))))"
     }
 
     "deserialise invalid key" in {

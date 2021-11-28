@@ -1,6 +1,7 @@
 package models
 
-import helpers.FormBinding
+import helpers.{DateTimeFormat, FormBinding}
+import org.joda.time.DateTime
 import play.api.data.Forms.{date, mapping, number, of, text, tuple}
 import play.api.data.{Form, Forms, Mapping}
 
@@ -14,19 +15,7 @@ case class PreviousWeight(dateTime: LocalDate, weight: Double)
 
 object PreviousWeight {
 
-  implicit val dateTimeFormat: Format[LocalDate] = new Format[LocalDate] {
-    override def writes(o: LocalDate): JsValue = json.JsString(o.toString())
-
-    override def reads(json: JsValue): JsResult[LocalDate] = json match {
-      case JsString(s) =>
-        try {
-          JsSuccess(LocalDate.parse(s))
-        } catch {
-          case _: DateTimeParseException => JsError("That's not a date")
-        }
-      case _ => JsError("That's not a date")
-    }
-  }
+  implicit val dateTimeFormat: Format[DateTime] = DateTimeFormat.dateTimeFormat
 
   implicit val formats: OFormat[PreviousWeight] = Json.format[PreviousWeight]
 }

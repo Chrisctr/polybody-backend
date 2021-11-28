@@ -32,7 +32,7 @@ class UserSpec extends BaseSpec {
     "testId",
     "testUsername",
     "testEmail@email.com",
-    25,
+    LocalDate.of(1996, 10, 10),
     "male",
     175.5,
     Some(previousWeightList),
@@ -46,7 +46,7 @@ class UserSpec extends BaseSpec {
       "_id" -> "testId",
       "username" -> "testUsername",
       "email" -> "testEmail@email.com",
-      "age" -> 25,
+      "dob" -> "1996-10-10",
       "gender" -> "male",
       "height" -> 175.5,
       "previousWeight" -> Json.arr(
@@ -90,7 +90,7 @@ class UserSpec extends BaseSpec {
         "_id" -> 39,
         "username" -> 0,
         "email" -> 0,
-        "age" -> "25",
+        "dob" -> "12996-110-150",
         "gender" -> 0,
         "height" -> "175.5",
         "previousWeight" -> Json.arr(),
@@ -102,7 +102,7 @@ class UserSpec extends BaseSpec {
         invalidJson.as[UserFull]
       }
 
-      ex.getMessage mustBe "JsResultException(errors:List((/height,List(JsonValidationError(List(error.expected.jsnumber),List()))), (/username,List(JsonValidationError(List(error.expected.jsstring),List()))), (/_id,List(JsonValidationError(List(error.expected.jsstring),List()))), (/targetWeight,List(JsonValidationError(List(error.expected.jsnumber),List()))), (/gender,List(JsonValidationError(List(error.expected.jsstring),List()))), (/age,List(JsonValidationError(List(error.expected.jsnumber),List()))), (/email,List(JsonValidationError(List(error.expected.jsstring),List())))))"
+      ex.getMessage mustBe "JsResultException(errors:List((/dob,List(JsonValidationError(List(error.expected.date.isoformat),ArraySeq(ParseCaseSensitive(false)(Value(Year,4,10,EXCEEDS_PAD)'-'Value(MonthOfYear,2)'-'Value(DayOfMonth,2))[Offset(+HH:MM:ss,'Z')])))), (/height,List(JsonValidationError(List(error.expected.jsnumber),List()))), (/username,List(JsonValidationError(List(error.expected.jsstring),List()))), (/_id,List(JsonValidationError(List(error.expected.jsstring),List()))), (/targetWeight,List(JsonValidationError(List(error.expected.jsnumber),List()))), (/email,List(JsonValidationError(List(error.expected.jsstring),List()))), (/gender,List(JsonValidationError(List(error.expected.jsstring),List())))))"
     }
 
     "deserialise invalid key" in {
@@ -110,7 +110,7 @@ class UserSpec extends BaseSpec {
       val invalidJson = Json.obj(
         "invalidKey" -> "testUsername",
         "invalidKey" -> "testEmail@email.com",
-        "invalidKey" -> 25,
+        "invalidKey" -> "1996-10-10",
         "invalidKey" -> "male",
         "invalidKey" -> 175.5,
         "invalidKey" -> Json.arr(),
@@ -122,7 +122,7 @@ class UserSpec extends BaseSpec {
         invalidJson.as[UserFull]
       }
 
-      ex.getMessage mustBe "JsResultException(errors:List((/height,List(JsonValidationError(List(error.path.missing),List()))), (/username,List(JsonValidationError(List(error.path.missing),List()))), (/_id,List(JsonValidationError(List(error.path.missing),List()))), (/gender,List(JsonValidationError(List(error.path.missing),List()))), (/age,List(JsonValidationError(List(error.path.missing),List()))), (/email,List(JsonValidationError(List(error.path.missing),List())))))"
+      ex.getMessage mustBe "JsResultException(errors:List((/dob,List(JsonValidationError(List(error.path.missing),List()))), (/height,List(JsonValidationError(List(error.path.missing),List()))), (/username,List(JsonValidationError(List(error.path.missing),List()))), (/_id,List(JsonValidationError(List(error.path.missing),List()))), (/email,List(JsonValidationError(List(error.path.missing),List()))), (/gender,List(JsonValidationError(List(error.path.missing),List())))))"
     }
 
     "serialise to json" in {
