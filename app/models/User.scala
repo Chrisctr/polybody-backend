@@ -11,7 +11,7 @@ case class User(
                  username: String,
                  email: String,
                  dob: LocalDate,
-                 gender: String,
+                 sex: String,
                  height: Double,
                  targetWeight: Option[Double],
                )

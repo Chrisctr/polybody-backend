@@ -11,7 +11,7 @@ case class UserFull(
                      username: String,
                      email: String,
                      dob: LocalDate,
-                     gender: String,
+                     sex: String,
                      height: Double,
                      previousWeight: Option[List[PreviousWeight]],
                      targetWeight: Option[Double],

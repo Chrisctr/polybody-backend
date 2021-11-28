@@ -91,7 +91,7 @@ object UserDetails {
     "username" -> "Calvin",
     "email" -> "calvin@gmail.com",
     "age" -> "1996-10-10",
-    "gender" -> "male",
+    "sex" -> "male",
     "height" -> 140,
     "previousWeight" -> Json.arr(
       Json.obj(
