@@ -68,7 +68,7 @@ object UserDetails {
     "611be0d7e17315ce09335455",
     "Calvin",
     "calvin@gmail.com",
-    25,
+    LocalDate.of(1996, 10, 10),
     "male",
     140,
     Some(140),
@@ -78,7 +78,7 @@ object UserDetails {
     "611be0d7e17315ce09335455",
     "Calvin",
     "calvin@gmail.com",
-    25,
+    LocalDate.of(1996, 10, 10),
     "male",
     140,
     Some(previousWeightList),
@@ -90,8 +90,8 @@ object UserDetails {
     "_id" -> "611be0d7e17315ce09335455",
     "username" -> "Calvin",
     "email" -> "calvin@gmail.com",
-    "age" -> 25,
-    "gender" -> "male",
+    "age" -> "1996-10-10",
+    "sex" -> "male",
     "height" -> 140,
     "previousWeight" -> Json.arr(
       Json.obj(

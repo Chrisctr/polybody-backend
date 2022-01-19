@@ -18,5 +18,4 @@ case class MacroStatFull(
 object MacroStatFull {
 
   implicit val formats: OFormat[MacroStatFull] = Json.format[MacroStatFull]
-
 }
