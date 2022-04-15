@@ -3,8 +3,9 @@
     "_id": "611be0d7e17315ce09335452",
     "username": "John",
     "email": "mrjohn@gmail.gov.uk",
+    "dob": "2002-05-09",
     "age": 45,
-    "gender": "male",
+    "sex": "male",
     "height": 160,
     "previousWeight": [
       {

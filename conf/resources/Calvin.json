@@ -3,8 +3,9 @@
     "_id": "611be0d7e17315ce09335455",
     "username": "Calvin",
     "email": "calvin@gmail.com",
+    "dob": "2000-06-09",
     "age": 25,
-    "gender": "male",
+    "sex": "male",
     "height": 140,
     "previousWeight": [
       {
