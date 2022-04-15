@@ -40,7 +40,7 @@ class MacroStatService @Inject()(userConnector: UserConnector)(implicit ec: Exec
       "$addToSet" -> BSONDocument(
         "macroStat" -> BSONDocument(
           "dateTime" -> currentDate,
-          "activityLevel" -> macroStatRequest.activityLevel,
+          "activityLevel" -> macroStatRequest.activityLevel.toString,
           "setGoal" -> macroStatRequest.setGoal,
           "proteinPreference" -> macroStatRequest.proteinPreference,
           "fatPreference" -> macroStatRequest.fatPreference,
