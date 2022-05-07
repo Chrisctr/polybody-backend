@@ -69,7 +69,7 @@ class MacroStatControllerSpec extends BaseSpec {
 
       val fakeJson: JsValue =
         Json.obj(
-          "activityLevel" -> "Active",
+          "activityLevel" -> "ModeratelyActive",
           "setGoal" -> 200,
           "proteinPreference" -> 155,
           "fatPreference" -> 55,
