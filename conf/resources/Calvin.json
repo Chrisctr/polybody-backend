@@ -3,8 +3,8 @@
     "_id": "611be0d7e17315ce09335455",
     "username": "Calvin",
     "email": "calvin@gmail.com",
-    "age": 25,
-    "gender": "male",
+    "dob": "2000-06-09",
+    "sex": "Male",
     "height": 140,
     "previousWeight": [
       {
@@ -28,7 +28,7 @@
     "macroStat": [
       {
         "dateTime": "2021-08-09",
-        "activityLevel": "Very Active",
+        "activityLevel": "VeryActive",
         "setGoal": 150,
         "proteinPreference": 150,
         "fatPreference": 50,

@@ -1,5 +1,6 @@
 package models
 
+import helpers.{Male, VeryActive}
 import play.api.libs.json.{JsResultException, Json}
 import utils.BaseSpec
 
@@ -16,7 +17,7 @@ class UserSpec extends BaseSpec {
 
   val macroStat: MacroStat = new MacroStat(
     LocalDate.of(2020, 3, 24),
-    "Very Active",
+    VeryActive,
     160,
     Some(150),
     Some(50),
@@ -33,7 +34,7 @@ class UserSpec extends BaseSpec {
     "testUsername",
     "testEmail@email.com",
     LocalDate.of(1996, 10, 10),
-    "male",
+    Male,
     175.5,
     Some(previousWeightList),
     Some(165),
@@ -47,7 +48,7 @@ class UserSpec extends BaseSpec {
       "username" -> "testUsername",
       "email" -> "testEmail@email.com",
       "dob" -> "1996-10-10",
-      "sex" -> "male",
+      "sex" -> "Male",
       "height" -> 175.5,
       "previousWeight" -> Json.arr(
         Json.obj(
@@ -63,7 +64,7 @@ class UserSpec extends BaseSpec {
       "macroStat" -> Json.arr(
         Json.obj(
           "dateTime" -> "2020-03-24",
-          "activityLevel" -> "Very Active",
+          "activityLevel" -> "VeryActive",
           "setGoal" -> 160,
           "proteinPreference" -> 150,
           "fatPreference" -> 50,
@@ -91,7 +92,7 @@ class UserSpec extends BaseSpec {
         "username" -> 0,
         "email" -> 0,
         "dob" -> "12996-110-150",
-        "sex" -> 0,
+        "sex" -> "Male",
         "height" -> "175.5",
         "previousWeight" -> Json.arr(),
         "targetWeight" -> "150.5",
@@ -102,7 +103,50 @@ class UserSpec extends BaseSpec {
         invalidJson.as[UserFull]
       }
 
-      ex.getMessage mustBe "JsResultException(errors:List((/dob,List(JsonValidationError(List(error.expected.date.isoformat),ArraySeq(ParseCaseSensitive(false)(Value(Year,4,10,EXCEEDS_PAD)'-'Value(MonthOfYear,2)'-'Value(DayOfMonth,2))[Offset(+HH:MM:ss,'Z')])))), (/height,List(JsonValidationError(List(error.expected.jsnumber),List()))), (/username,List(JsonValidationError(List(error.expected.jsstring),List()))), (/_id,List(JsonValidationError(List(error.expected.jsstring),List()))), (/targetWeight,List(JsonValidationError(List(error.expected.jsnumber),List()))), (/email,List(JsonValidationError(List(error.expected.jsstring),List()))), (/sex,List(JsonValidationError(List(error.expected.jsstring),List())))))"
+      ex.getMessage mustBe "JsResultException(errors:List((/dob,List(JsonValidationError(List(error.expected.date.isoformat),ArraySeq(ParseCaseSensitive(false)(Value(Year,4,10,EXCEEDS_PAD)'-'Value(MonthOfYear,2)'-'Value(DayOfMonth,2))[Offset(+HH:MM:ss,'Z')])))), (/height,List(JsonValidationError(List(error.expected.jsnumber),List()))), (/username,List(JsonValidationError(List(error.expected.jsstring),List()))), (/_id,List(JsonValidationError(List(error.expected.jsstring),List()))), (/targetWeight,List(JsonValidationError(List(error.expected.jsnumber),List()))), (/email,List(JsonValidationError(List(error.expected.jsstring),List())))))"
+    }
+
+    "deserialise invalid sex" in {
+
+      val invalidJson = Json.obj(
+        "_id" -> "testId",
+        "username" -> "testUsername",
+        "email" -> "testEmail@email.com",
+        "dob" -> "1996-10-10",
+        "sex" -> 0,
+        "height" -> 175.5,
+        "previousWeight" -> Json.arr(
+          Json.obj(
+            "dateTime" -> "2020-03-24",
+            "weight" -> 150.5
+          ),
+          Json.obj(
+            "dateTime" -> "2020-02-24",
+            "weight" -> 144.5
+          )
+        ),
+        "targetWeight" -> 165,
+        "macroStat" -> Json.arr(
+          Json.obj(
+            "dateTime" -> "2020-03-24",
+            "activityLevel" -> "VeryActive",
+            "setGoal" -> 160,
+            "proteinPreference" -> 150,
+            "fatPreference" -> 50,
+            "carbPreference" -> 200,
+            "bodyFat" -> 20,
+            "maintenanceCalories" -> 2500,
+            "targetCalories" -> 2000,
+            "timeToGoal" -> 10
+          )
+        )
+      )
+
+      val ex = intercept[JsResultException] {
+        invalidJson.as[UserFull]
+      }
+
+      ex.getMessage mustBe "JsResultException(errors:List((/sex,List(JsonValidationError(List(That's not a sex),List())))))"
     }
 
     "deserialise invalid key" in {

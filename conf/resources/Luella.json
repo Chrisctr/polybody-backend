@@ -3,8 +3,9 @@
     "_id": "611be0d7e17315ce09335454",
     "username": "Luella",
     "email": "luellaalford@providco.com",
+    "dob": "1994-11-29",
     "age": 17,
-    "gender": "female",
+    "sex": "female",
     "height": 90,
     "previousWeight": [{
       "dateTime": "2018-09-09",

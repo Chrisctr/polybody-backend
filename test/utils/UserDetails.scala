@@ -1,7 +1,8 @@
 package utils
 
+import helpers.{Male, ModeratelyActive, Sedentary, VeryActive}
 import models.{MacroStat, MacroStatFull, PreviousWeight, User, UserFull}
-import play.api.libs.json.Json
+import play.api.libs.json.{JsObject, Json}
 
 import java.time.LocalDate
 
@@ -13,7 +14,7 @@ object UserDetails {
 
   val macroStatRequest: MacroStatFull = {
     MacroStatFull(
-      "Sedentary",
+      Sedentary,
       180,
       Some(200),
       Some(100),
@@ -38,7 +39,7 @@ object UserDetails {
   val macroStatList: List[MacroStat] = List(
     MacroStat(
       LocalDate.of(2021, 8, 9),
-      "Very Active",
+      VeryActive,
       150,
       Some(150),
       Some(50),
@@ -51,7 +52,7 @@ object UserDetails {
     ),
     MacroStat(
       LocalDate.of(2021, 7, 9),
-      "Active",
+      ModeratelyActive,
       140,
       Some(140),
       Some(40),
@@ -69,7 +70,7 @@ object UserDetails {
     "Calvin",
     "calvin@gmail.com",
     LocalDate.of(1996, 10, 10),
-    "male",
+    Male,
     140,
     Some(140),
   )
@@ -79,19 +80,19 @@ object UserDetails {
     "Calvin",
     "calvin@gmail.com",
     LocalDate.of(1996, 10, 10),
-    "male",
+    Male,
     140,
     Some(previousWeightList),
     Some(140),
     Some(macroStatList)
   )
 
-  val json = Json.obj(
+  val json: JsObject = Json.obj(
     "_id" -> "611be0d7e17315ce09335455",
     "username" -> "Calvin",
     "email" -> "calvin@gmail.com",
     "age" -> "1996-10-10",
-    "sex" -> "male",
+    "sex" -> "Male",
     "height" -> 140,
     "previousWeight" -> Json.arr(
       Json.obj(
@@ -115,7 +116,7 @@ object UserDetails {
     "macroStat" -> Json.arr(
       Json.obj(
         "dateTime" -> "2021-08-09",
-        "activityLevel" -> "Very Active",
+        "activityLevel" -> "VeryActive",
         "setGoal" -> 150,
         "proteinPreference" -> 150,
         "fatPreference" -> 50,
@@ -127,5 +128,4 @@ object UserDetails {
       )
     )
   )
-
 }
