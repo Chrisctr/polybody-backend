@@ -40,7 +40,7 @@ class UserControllerSpec extends BaseSpec {
     "findSpecificUser is called" must {
       "return OK response and the specific user's details in full if a valid user exists" in {
 
-        val requestedUser = Some(Future.successful(user))
+        val requestedUser = Future.successful(Some(user))
 
         when(userService.findSpecificUser(passUsername))
           .thenReturn(requestedUser)
@@ -53,7 +53,7 @@ class UserControllerSpec extends BaseSpec {
       }
       "return NO_CONTENT when no user exists" in {
 
-        val requestedUser = None
+        val requestedUser =  Future.successful(None)
 
         when(userService.findSpecificUser(passUsername))
           .thenReturn(requestedUser)

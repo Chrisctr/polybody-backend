@@ -30,13 +30,9 @@ class MacroStatController @Inject()(macroStatService: MacroStatService, cc: Cont
     if (macroStatData.isEmpty) {
       Future.successful(BadRequest("Missing parameters in request"))
     } else {
-      macroStatService.addNewMacroStat(username, macroStatData.get) match {
-        case Some(value) => value.map { data =>
-          Created(Json.toJson(data))
-        }
-        case None =>
-          logger.warn("NoContent")
-          Future.successful(NoContent)
+      macroStatService.addNewMacroStat(username, macroStatData.get).map {
+        case Some(result) => Created
+        case None => Created
       }
     }
   }

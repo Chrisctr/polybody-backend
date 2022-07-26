@@ -12,48 +12,30 @@ import scala.concurrent.{ExecutionContext, Future}
 class ErrorHandler @Inject()()(implicit val ec: ExecutionContext) extends Logging {
 //TODO Find a way to condense userErrorHandler, previousWeightErrorHandler and macroStatErrorHandler into one method to cut down on duplication
 
-  def userErrorHandler(data: Option[Future[User]]): Future[Result] = {
-    data match {
+  def userErrorHandler(data: Future[Option[User]]): Future[Result] = {
+    data.flatMap {
       case Some(value) =>
-        val json: Future[JsArray] = value.map {
-          data => Json.arr(data)
-        }
-        json.map { data =>
-          logger.info(data.toString)
-          Ok(data)
-        }
+        Future.successful(Ok(Json.arr(value)))
       case None =>
         logger.error("NoContent")
         Future.successful(NoContent)
     }
   }
 
-  def previousWeightErrorHandler(data: Option[Future[List[PreviousWeight]]]): Future[Result] = {
-    data match {
+  def previousWeightErrorHandler(data: Future[Option[List[PreviousWeight]]]): Future[Result] = {
+    data.flatMap {
       case Some(value) =>
-        val json = value.map {
-          data => Json.arr(data)
-        }
-        json.map { data =>
-          logger.info(data.toString)
-          Ok(data)
-        }
+        Future.successful(Ok(Json.arr(value)))
       case None =>
         logger.error("NoContent")
         Future.successful(NoContent)
     }
   }
 
-  def macroStatErrorHandler(data: Option[Future[List[MacroStat]]]): Future[Result] = {
-    data match {
+  def macroStatErrorHandler(data: Future[Option[List[MacroStat]]]): Future[Result] = {
+    data.flatMap {
       case Some(value) =>
-        val json = value.map {
-          data => Json.arr(data)
-        }
-        json.map { data =>
-          logger.info(data.toString)
-          Ok(data)
-        }
+        Future.successful(Ok(Json.arr(value)))
       case None =>
         logger.error("NoContent")
         Future.successful(NoContent)

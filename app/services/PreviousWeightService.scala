@@ -5,6 +5,7 @@ import connectors.UserConnector
 import helpers.{UserDoesNotExist, UserExistsAndValid}
 import models.PreviousWeight
 import play.api.Logging
+import play.api.http.Status.{CREATED, NOT_FOUND}
 import reactivemongo.api.bson.BSONDocument
 
 import java.time.LocalDate
@@ -14,22 +15,18 @@ import scala.concurrent.{Await, ExecutionContext, Future}
 
 class PreviousWeightService @Inject()(userConnector: UserConnector)(implicit ec: ExecutionContext) extends Logging {
 
-  def findPreviousWeights(username: String): Option[Future[List[PreviousWeight]]] = {
+  def findPreviousWeights(username: String): Future[Option[List[PreviousWeight]]] = {
 
-    val verify = userConnector.checkUserExists(username) map {
+    userConnector.checkUserExists(username) flatMap {
       case true =>
-        Some(
-          userConnector
+        userConnector
           .findSpecificUserFull(username)
-          .map(
-            _.head.previousWeight.get)
-        )
-      case false => None
+          .map(_.head.previousWeight)
+      case false => Future.successful(None)
     }
-    Await.result(verify, Duration(10, "seconds"))
   }
 
-  def addNewWeight(username: String, weight: Double): Option[Future[Int]] = {
+  def addNewWeight(username: String, weight: Double): Future[Option[Int]] = {
 
     val dateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
     val currentDate: String = LocalDate.now.format(dateTimeFormatter)
@@ -44,13 +41,10 @@ class PreviousWeightService @Inject()(userConnector: UserConnector)(implicit ec:
       )
     )
 
-    val verify = userConnector.checkUserExists(username) map {
+    userConnector.checkUserExists(username) flatMap {
       case true =>
-        Some(
-          userConnector.addElement(selector, modifier)
-        )
-      case false => None
+        userConnector.addElement(selector, modifier)
+      case false => Future.successful(None)
     }
-    Await.result(verify, Duration(10, "seconds"))
   }
 }

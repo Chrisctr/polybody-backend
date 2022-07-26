@@ -5,6 +5,7 @@ import org.mockito.Mockito
 import org.mockito.Mockito.{reset, when}
 import org.scalatest.concurrent.{IntegrationPatience, ScalaFutures}
 import play.api.Application
+import play.api.http.Status.CREATED
 import play.api.inject.guice.GuiceApplicationBuilder
 import reactivemongo.api.bson.BSONDocument
 import utils.UserDetails.{noUsername, passUsername}
@@ -93,13 +94,13 @@ class UserConnectorSpec extends BaseSpec with ScalaFutures with IntegrationPatie
 
       "return a Future[Int] when data is successfully upserted" in {
 
-        when(userConnector.addElement(selector, modifier)).thenReturn(Future.successful(1))
+        when(userConnector.addElement(selector, modifier)).thenReturn(Future.successful(Some(CREATED)))
 
         val response = userConnector.addElement(selector, modifier)
 
-        val result = Await.result(response, Duration(5, "seconds"))
+        val result = response.futureValue
 
-        result mustBe 1
+        result mustBe Some(CREATED)
 
       }
       // TODO - Determine if error scenarios are here after figuring out database tests as error scenarios are mostly handled by the controller and service layers
