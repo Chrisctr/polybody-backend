@@ -1,6 +1,7 @@
 package utils
 
 import org.scalatest.BeforeAndAfterEach
+import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.matchers.must.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatestplus.mockito.MockitoSugar
@@ -10,7 +11,7 @@ import play.api.test.Injecting
 
 import scala.concurrent.ExecutionContext
 
-class BaseSpec extends AnyWordSpec with GuiceOneAppPerSuite with MockitoSugar with Matchers with Injecting with BeforeAndAfterEach {
+class BaseSpec extends AnyWordSpec with GuiceOneAppPerSuite with MockitoSugar with Matchers with Injecting with BeforeAndAfterEach with ScalaFutures {
 
   implicit lazy val ec = inject[ExecutionContext]
 

@@ -38,7 +38,7 @@ class UserConnector @Inject()(applicationConfiguration: ApplicationConfig)(impli
       .collect[List](-1, Cursor.FailOnError[List[UserFull]]()))
   }
 
-  def addElement(selector: BSONDocument, modifier: BSONDocument): Future[Int] = {
-    applicationConfiguration.userCollection.flatMap(_.update.one(selector, modifier, upsert = true)).map(_.n)
+  def addElement(selector: BSONDocument, modifier: BSONDocument): Future[Option[Int]] = {
+    applicationConfiguration.userCollection.flatMap(_.update.one(selector, modifier, upsert = true)).map(_.code)
   }
 }

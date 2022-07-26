@@ -30,13 +30,9 @@ class PreviousWeightController @Inject()(previousWeightService: PreviousWeightSe
     if (weight.isEmpty) {
       Future.successful(BadRequest("Missing parameters in request"))
     } else {
-      previousWeightService.addNewWeight(username, weight.get) match {
-        case Some(value) => value.map { data =>
-          Created(Json.toJson(data))
-        }
-        case None =>
-          logger.warn("NoContent")
-          Future.successful(NoContent)
+      previousWeightService.addNewWeight(username, weight.get).map {
+        case Some(result) => Created
+        case None => Created
       }
     }
   }

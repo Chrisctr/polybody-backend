@@ -3,6 +3,7 @@ package services
 import connectors.UserConnector
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.{reset, when}
+import play.api.http.Status.CREATED
 import utils.BaseSpec
 import utils.UserDetails.{macroStatList, macroStatRequest, passUsername, previousWeightList, user, userFull}
 
@@ -29,14 +30,14 @@ class MacroStatServiceSpec extends BaseSpec {
           .thenReturn(Future.successful(List(userFull)))
 
         //TODO - Figure out why this test is not passing without .toString
-        sut.findMacroStats(passUsername).toString mustBe Some(Future.successful(macroStatList)).toString
+        sut.findMacroStats(passUsername).futureValue.get mustBe macroStatList
       }
       "return None when no user exists to be retrieved from the connector" in {
 
         when(userConnector.checkUserExists(passUsername))
           .thenReturn(Future.successful(false))
 
-        sut.findMacroStats(passUsername) mustBe None
+        sut.findMacroStats(passUsername).futureValue mustBe None
       }
     }
     "addNewMacroStat is called" must {
@@ -46,17 +47,17 @@ class MacroStatServiceSpec extends BaseSpec {
           .thenReturn(Future.successful(true))
 
         when(userConnector.addElement(any(), any()))
-          .thenReturn(Future.successful(1))
+          .thenReturn(Future.successful(Some(CREATED)))
 
         // TODO - Find a way to pass without using toString
-        sut.addNewMacroStat(passUsername, macroStatRequest).toString mustBe Some(Future.successful(1)).toString
+        sut.addNewMacroStat(passUsername, macroStatRequest).futureValue.get mustBe CREATED
       }
       "return a None when the user doesn't exist" in {
 
         when(userConnector.checkUserExists(any()))
           .thenReturn(Future.successful(false))
 
-        sut.addNewMacroStat(passUsername, macroStatRequest) mustBe None
+        sut.addNewMacroStat(passUsername, macroStatRequest).futureValue mustBe None
       }
     }
   }

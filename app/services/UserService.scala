@@ -9,12 +9,15 @@ import scala.concurrent.{Await, ExecutionContext, Future}
 
 class UserService @Inject()(userConnector: UserConnector)(implicit val ec: ExecutionContext) {
 
-  def findSpecificUser(username: String): Option[Future[User]] = {
+  def findSpecificUser(username: String): Future[Option[User]] = {
 
-    val verify = userConnector.checkUserExists(username) map {
-      case true => Some(userConnector.findSpecificUser(username).map(_.head))
-      case false => None
+    userConnector.checkUserExists(username) flatMap {
+      case true => userConnector.findSpecificUser(username).map {
+        case result if result.length == 1 => Some(result.head)
+        case result if result.length > 1 => None // TODO - Add error case for multiple users with the same name and evaluate if needed
+        case _ => None
+      }
+      case false => Future.successful(None)
     }
-    Await.result(verify, Duration(10, "seconds"))
   }
 }
