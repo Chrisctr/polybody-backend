@@ -1,6 +1,6 @@
 package models
 
-import helpers.{DateTimeFormat, Female, Male, MaleOrFemale, Other}
+import helpers.{DateTimeFormat, Female, Male, MaleOrFemale, Intersex}
 import org.joda.time.DateTime
 import play.api.libs.json
 import play.api.libs.json.{Format, JsError, JsResult, JsString, JsSuccess, JsValue, Json, OFormat}
@@ -31,7 +31,7 @@ object User {
         json match {
           case JsString("Male")   => JsSuccess(Male)
           case JsString("Female") => JsSuccess(Female)
-          case JsString("Other")  => JsSuccess(Other)
+          case JsString("Intersex")  => JsSuccess(Intersex)
           case _ => JsError("That's not a sex")
         }
     }
